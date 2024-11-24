@@ -1,0 +1,88 @@
+.calendar {
+    position: absolute;
+    right: 0;
+
+    background-color: var(--color-very-light-gray);
+
+    padding: 20px;
+    box-shadow: 0 4px 8px var(--color-black);
+    border: 1px solid var(--color-black);
+
+    width: 250px;
+}
+
+.calendar-container {
+    color: var(--color-black);
+
+    width: 100%;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+
+    margin-bottom: 1rem;
+}
+
+.time-display {
+    font-size: 28px;
+}
+
+.date-display,
+.month-display {
+    font-size: 14px;
+}
+
+.calendar-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.calendar-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 1rem;
+}
+
+.arrows>button {
+    background-color: var(--color-very-light-gray);
+    border: 1px solid var(--color-black);
+    border-radius: 0px;
+}
+
+.calendar-table-body,
+.calendar-table-content {
+    width: 100%;
+}
+
+.calendar-table-content {
+    border-collapse: collapse;
+}
+
+.calendar-table-content th {
+    color: var(--color-black);
+    padding: 5px;
+    font-size: 12px;
+}
+
+.calendar-table-content td {
+    text-align: center;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.calendar-table-content .today {
+    color: var(--color-black);
+    border: 2px solid var(--color-black);
+    padding: 5px;
+}

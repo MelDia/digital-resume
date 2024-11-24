@@ -1,0 +1,57 @@
+<app-taskbar></app-taskbar>
+<div
+  class="home"
+  *appShowOnScreenSize="[
+    ScreenSize.XSmall,
+    ScreenSize.Small,
+    ScreenSize.Medium,
+    ScreenSize.Large,
+    ScreenSize.XLarge
+  ]"
+>
+  <div class="home-container">
+    <div class="icons">
+      <!-- <div class="icon" (click)="openNotepad()"> -->
+      <div class="icon" (click)="open('notepad')">
+        <div class="icon-files-notes icon-img"></div>
+        <p class="icon-label">Notepad</p>
+      </div>
+      <div class="icon">
+        <div class="icon-folder icon-img"></div>
+        <p class="icon-label">
+          System <br />
+          Folder
+        </p>
+      </div>
+      <div class="icon">
+        <div class="icon-printer icon-img"></div>
+        <p class="icon-label">Printer</p>
+      </div>
+      <div class="icon">
+        <div class="icon-mailbox icon-img"></div>
+        <p class="icon-label">E-mail</p>
+      </div>
+    </div>
+  </div>
+  <div class="icon trash">
+    <div class="icon-trash icon-img"></div>
+    <p class="icon-label">Trash</p>
+  </div>
+</div>
+
+@for(app of appInstances; track $index) {
+<app-notepad
+  [appInstance]="app"
+  [style]="{
+    left: app.position.left,
+    top: app.position.top,
+    width: app.size.width + 'px',
+    height: app.size.height + 'px'
+  }"
+  (close)="close(app.id)"
+  (minimize)="minimize(app.id)"
+  (maximize)="maximize(app.id)"
+  (restoreMaximized)="restoreMaximized(app.id)"
+>
+</app-notepad>
+}

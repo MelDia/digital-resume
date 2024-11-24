@@ -1,0 +1,33 @@
+<div class="taskbar">
+  <div class="taskbar-container">
+    <div class="taskbar-icons">
+      <!-- <div *ngFor="let app of groupedOpenedApps" class="taskbar-icon"> -->
+      <div *ngFor="let app of openedApps" class="taskbar-icon">
+        <div
+          class="icon-img"
+          [ngClass]="getIconClass(app.name)"
+          (click)="toggleMinimizedApp(app.id)"
+        ></div>
+        <!-- <div
+          class="icon-img"
+          [ngClass]="getIconClass(app.name)"
+          (click)="toggleDropdown(app.name)"
+        ></div>
+
+        <div *ngIf="dropdownOpen[app.name]" class="dropdown">
+          <div *ngFor="let instance of app.instances" class="dropdown-item">
+            {{ instance.name }} - ({{ instance.id }})
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="time-container" (click)="toggleCalendar($event)">
+    {{ timer }}
+  </div>
+</div>
+
+@if (isOpen) {
+<app-calendar></app-calendar>
+}

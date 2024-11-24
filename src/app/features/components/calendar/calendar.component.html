@@ -1,0 +1,45 @@
+<div class="calendar">
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="time-display">{{time}}</div>
+            <div class="date-display">{{date}}</div>
+        </div>
+        <div class="calendar-table">
+            <div class="calendar-table-header">
+                <div class="month-display">{{currentMonth}} {{currentYear}}</div>
+                <div class="arrows">
+                    <button (click)="previousMonth()">&#9650;</button>
+                    <button (click)="nextMonth()">&#9660;</button>
+                </div>
+            </div>
+            <div class="calendar-table-body">
+                <table class="calendar-table-content">
+                    <thead>
+                        <tr>
+                            @for (day of dayNames; track $index) {
+                            <th>{{day}}</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (week of [0, 1, 2, 3, 4, 5]; track $index) {
+                        <tr>
+                            @for (day of [0, 1, 2, 3, 4, 5, 6]; track $index) {
+                            <td>
+                                @if ((week * 7 + day) >= firstDayOfMonth && (week * 7 + day - firstDayOfMonth + 1) <=
+                                    daysInMonth.length) { <span
+                                    [class.today]="isCurrentMonth && (week * 7 + day - firstDayOfMonth + 1) === today">
+                                    {{
+                                    week * 7 + day - firstDayOfMonth + 1 <= daysInMonth.length ? week * 7 + day -
+                                        firstDayOfMonth + 1 : '' }} </span>
+                                        }
+                            </td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+.notepad {
+  background-color: var(--color-very-light-gray);
+
+  box-shadow: 0 4px 8px var(--color-black);
+  border: 1px solid var(--color-black);
+
+  position: fixed;
+  inset: 0px;
+
+  width: 400px;
+  height: 600px;
+
+  max-width: 100vw;
+  max-height: 100dvh;
+
+  resize: both;
+}
+
+.notepad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--color-very-light-gray);
+  color: var(--color-black);
+  box-shadow: 0 2px 0 var(--color-black);
+
+  padding: 5px;
+  margin: auto;
+
+  cursor: move;
+}
+
+.notepad-title {
+  font-size: 1rem;
+  user-select: none;
+}
+
+.notepad-controls {
+  display: flex;
+  gap: 4px;
+
+  button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+}
+
+.notepad-content {
+  padding: 1rem;
+}
+
+mwlResizable {
+  box-sizing: border-box;
+}
+
+.resize-handle-top,
+.resize-handle-bottom {
+  position: absolute;
+  height: 5px;
+  cursor: row-resize;
+  width: 100%;
+}
+
+.resize-handle-top {
+  top: 0;
+}
+
+.resize-handle-bottom {
+  bottom: 0;
+}
+
+.resize-handle-left,
+.resize-handle-right {
+  position: absolute;
+  height: 100%;
+  cursor: col-resize;
+  width: 5px;
+}
+
+.resize-handle-left {
+  left: 0;
+}
+
+.resize-handle-right {
+  right: 0;
+}

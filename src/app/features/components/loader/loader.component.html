@@ -1,0 +1,23 @@
+@if (isLoaderVisible) {
+<div class="loader" *appShowOnScreenSize="[
+    ScreenSize.XSmall,
+    ScreenSize.Small, 
+    ScreenSize.Medium,
+    ScreenSize.Large,
+    ScreenSize.XLarge]"
+    [ngClass]="{ 'fade-out-loader': !isLoaderClose }">
+    <div class="loader-container" [ngClass]="{ 'fade-out': !isLoadingContentVisible }">
+        <div class="loading-text">loading<span class="dots">
+                <span class="dot">.</span>
+                <span class="dot">.</span>
+                <span class="dot">.</span>
+            </span></div>
+        <div class="loading-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+    <div class="text" [ngClass]="{ 'fade-in': isTextVisible }">
+        Welcome!
+    </div>
+</div>
+}
