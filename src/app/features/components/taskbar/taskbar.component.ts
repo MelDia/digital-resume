@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ScreenSizeDirective } from '../../../core/directives/screen-size-directive.directive';
 import { ScreenSize } from '../../../core/services/breakpoint-service.service';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subject, Subscription, takeUntil } from 'rxjs';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 
@@ -28,23 +28,15 @@ export class TaskbarComponent implements OnInit {
     }
   }
 
-  // @Output() bringToFrontEvent = new EventEmitter<{
-  //   appName: string;
-  //   instanceId: number;
-  // }>();
+  private destroy$ = new Subject<void>();
 
   ScreenSize = ScreenSize;
 
   public timer: string = '';
 
   public isOpen: boolean = false;
+
   public openedApps: any[] = [];
-  // public groupedOpenedApps: {
-  //   name: string;
-  //   count: number;
-  //   instances: any[];
-  // }[] = [];
-  // public dropdownOpen: { [key: string]: boolean } = {};
 
   private clockSubscription: Subscription = new Subscription();
 
@@ -54,19 +46,23 @@ export class TaskbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.clockSubscription = interval(1000).subscribe(() => {
-      this.updateClock();
-    });
+    this.clockSubscription = interval(1000)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateClock();
+      });
 
-    this.appService.openedApps$.subscribe((apps) => {
-      this.openedApps = apps;
-      // console.log('opened apps in taskbar:', this.openedApps);
-      // this.groupApps();
-    });
+    this.appService.openedApps$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((apps) => {
+        this.openedApps = apps;
+      });
   }
 
   ngOnDestroy(): void {
     this.clockSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private updateClock(): void {
@@ -112,36 +108,6 @@ export class TaskbarComponent implements OnInit {
   }
 
   public toggleMinimizedApp(appId: any) {
-    // const appInstance = this.openedApps.find((app) => app.id === appId);
-
-    // if (appInstance) {
-    //   appInstance.isMinimized = false;
-    //   this.appService.updateApp(appInstance);
-    // }
-
     this.appService.restoreMinimizedAction(appId);
   }
-
-  // private groupApps(): void {
-  //   const grouped = this.openedApps.reduce((acc, app) => {
-  //     const existing = acc.find(
-  //       (item: { name: any }) => item.name === app.name
-  //     );
-
-  //     if (existing) {
-  //       existing.count++;
-  //       existing.instances.push(app);
-  //     } else {
-  //       acc.push({ name: app.name, count: 1, instances: [app] });
-  //     }
-
-  //     return acc;
-  //   }, [] as { name: string; count: number; instances: any[] }[]);
-
-  //   this.groupedOpenedApps = grouped;
-  // }
-
-  // public toggleDropdown(appName: string): void {
-  //   this.dropdownOpen[appName] = !this.dropdownOpen[appName];
-  // }
 }

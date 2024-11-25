@@ -1,4 +1,11 @@
 <div
+  *appShowOnScreenSize="[
+    ScreenSize.XSmall,
+    ScreenSize.Small,
+    ScreenSize.Medium,
+    ScreenSize.Large,
+    ScreenSize.XLarge
+  ]"
   id="notepad"
   class="notepad"
   cdkDrag
@@ -10,15 +17,6 @@
   [resizeSnapGrid]="{ left: 1, right: 1 }"
   (resizeEnd)="onResizeEnd($event)"
 >
-  <!--   [ngStyle]="{
-    left: this.appInstance.position.left,
-    top: this.appInstance.position.top,
-    width: this.appInstance.size.width,
-    height: this.appInstance.size.height,
-    transform: this.appInstance.isMaximized
-      ? 'translate3d(0px, 30px, 0px)'
-      : 'none'
-  }" -->
   <div class="notepad-container">
     <div class="notepad-header" cdkDragHandle>
       <div class="notepad-title">Notepad</div>
@@ -27,14 +25,14 @@
           <div class="icon-minimize"></div>
         </button>
         <button
-          *ngIf="!isMaximized"
+          *ngIf="!this.appInstance.isMaximized"
           class="notepad-maximize"
           (click)="toggleMaximizeNotepad()"
         >
           <div class="icon-maximize"></div>
         </button>
         <button
-          *ngIf="isMaximized"
+          *ngIf="this.appInstance.isMaximized"
           class="notepad-restore-maximize"
           (click)="toggleRestoreMaximizeNotepad()"
         >

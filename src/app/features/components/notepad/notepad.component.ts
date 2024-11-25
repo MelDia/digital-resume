@@ -19,20 +19,33 @@ import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 import { AppInstance } from '../../../core/models/app-instance.model';
 import { DragResizeService } from '../../../core/services/resize-service.service';
+import { Subject, takeUntil } from 'rxjs';
+import { transform } from 'typescript';
 
 @Component({
   selector: 'app-notepad',
   standalone: true,
-  imports: [CommonModule, DragDropModule, ResizableModule],
+  imports: [CommonModule, DragDropModule, ResizableModule, ScreenSizeDirective],
   templateUrl: './notepad.component.html',
   styleUrl: './notepad.component.scss',
 })
 export class NotepadComponent implements OnInit {
-  // ScreenSize = ScreenSize;
+  private destroy$ = new Subject<void>();
 
-  @Input() style: object = {};
+  ScreenSize = ScreenSize;
+
+  // @Input() style: object = {};
   @Input() appInstance!: AppInstance;
-  // @Input() isMaximized: boolean = false;
+
+  get style(): { [key: string]: string } {
+    return {
+      left: this.appInstance.position.left,
+      top: this.appInstance.position.top,
+      width: this.appInstance.size.width,
+      height: this.appInstance.size.height,
+      transform: this.appInstance.transform,
+    };
+  }
 
   @Output() close = new EventEmitter<void>();
   @Output() minimize = new EventEmitter<void>();
@@ -49,89 +62,43 @@ export class NotepadComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('notepad component initialized');
+    console.log('NOTEPAD COMPONENT INITIALIZED');
+    console.log(' appInstance:', this.appInstance);
+    console.log(' style: ', this.style);
 
-    // this.style = {
-    //   left: this.appInstance.position.left,
-    //   top: this.appInstance.position.top,
-    //   width: `${this.appInstance.size.width}px`,
-    //   height: `${this.appInstance.size.height}px`,
-    // };
+    this.appService.openedApps$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((instances) => {
+        this.appInstances = instances;
 
-    this.appService.openedApps$.subscribe((instances) => {
-      this.appInstances = instances;
-      console.log('opened apps:', this.appInstances);
+        // const currentInstance = instances.find(
+        //   (app) => app.id === this.appInstance.id
+        // );
 
-      const currentInstance = instances.find(
-        (app) => app.id === this.appInstance.id
-      );
-
-      if (currentInstance) {
-        this.isMaximized = currentInstance.isMaximized || false;
-        this.updateStyle();
-        console.log('isMaximized: ', this.isMaximized);
-        // this.style = {
-        //   left: this.appInstance.isMaximized
-        //     ? this.appInstance.position.left
-        //     : 0,
-        //   top: this.appInstance.isMaximized ? this.appInstance.position.top : 0,
-        //   width: this.appInstance.isMaximized
-        //     ? this.appInstance.size.width
-        //     : '100vw',
-        //   height: this.appInstance.isMaximized
-        //     ? this.appInstance.size.height
-        //     : '100vh',
-        //   transform: this.appInstance.isMaximized
-        //     ? 'none'
-        //     : 'translate3d(0px, 30px, 0px)',
-        // };
-        // if (this.isMaximized) {
-        //   console.log('style: ', this.style);
+        // if (currentInstance) {
+        //   this.isMaximized = currentInstance.isMaximized || false;
+        //   // this.updateStyle();
         // }
-      }
-    });
+      });
   }
 
-  // public validate(event: ResizeEvent): boolean {
-  //   // const MIN_DIMENSIONS_PX: number = 50;
-  //   // if (
-  //   //   event.rectangle.width &&
-  //   //   event.rectangle.height &&
-  //   //   (event.rectangle.width < MIN_DIMENSIONS_PX ||
-  //   //     event.rectangle.height < MIN_DIMENSIONS_PX)
-  //   // ) {
-  //   //   return false;
-  //   // }
-  //   // return true;
-  //   return this.resizeService.validate(event);
-  // }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   public onResizeEnd(event: ResizeEvent): void {
     console.log('Element was resized', event);
-    // const newSize = {
-    //   width: event.rectangle.width,
-    //   height: event.rectangle.height,
-    // };
-    // const newPosition = {
-    //   left: event.rectangle.left,
-    //   top: event.rectangle.top,
-    // };
-
-    // this.appService.updateState(this.appInstance.id, {
-    //   size: { width: newSize.width + 'px', height: newSize.height + 'px' },
-    //   position: { left: newPosition.left, top: newPosition.top },
-    // });
-
-    this.style = this.resizeService.onResizeEnd(event);
-    console.log('Updated style after resize:', this.style);
-    // this.style = {
-    //   position: 'fixed',
-    //   left: `${event.rectangle.left}px`,
-    //   top: `${event.rectangle.top}px`,
-    //   width: `${event.rectangle.width}px`,
-    //   height: `${event.rectangle.height}px`,
-    //   overflow: 'hidden',
-    // };
+    // this.style = this.resizeService.onResizeEnd(event);
+    this.appInstance.position = {
+      left: `${event.rectangle.left}px`,
+      top: `${event.rectangle.top}px`,
+    };
+    this.appInstance.size = {
+      width: `${event.rectangle.width}px`,
+      height: `${event.rectangle.height}px`,
+    };
+    console.log('Updated style after resize:', this.appInstance);
   }
 
   public toggleMinimizeNotepad() {
@@ -150,25 +117,38 @@ export class NotepadComponent implements OnInit {
     this.close.emit();
   }
 
-  public updateStyle() {
-    if (this.isMaximized) {
-      console.log('maximized');
-      this.style = {
-        left: '0',
-        top: '0',
-        width: '100vw',
-        height: '100vh',
-        transform: 'translate3d(0px, 30px, 0px)',
-      };
-    } else {
-      this.style = {
-        left: this.appInstance.position.left,
-        top: this.appInstance.position.top,
-        width: this.appInstance.size.width,
-        height: this.appInstance.size.height,
-      };
-      console.log('not maximized');
-      console.log('style: ', this.style);
-    }
-  }
+  // public updateStyle() {
+  //   if (this.isMaximized) {
+  //     console.log('maximized');
+  //     // this.appInstance.position = { left: '0', top: '0' };
+  //     // this.appInstance.size = { width: '100vw', height: '100vh' };
+  //     // this.appInstance.transform = 'translate3d(0px, 30px, 0px)';
+
+  //     const updates = {
+  //       position: { left: '0', top: '0' },
+  //       size: { width: '100vw', height: '100vh' },
+  //       transform: 'translate3d(0px, 30px, 0px)',
+  //     };
+  //     this.appService.updateState(this.appInstance.id, updates);
+  //     console.log('this.appInstance ', this.appInstance);
+
+  //     // this.style = {
+  //     //   left: '0',
+  //     //   top: '0',
+  //     //   width: '100vw',
+  //     //   height: '100vh',
+  //     //   transform: 'translate3d(0px, 30px, 0px)',
+  //     // };
+  //   }
+  //   // else {
+  //   //   this.style = {
+  //   //     left: this.appInstance.position.left,
+  //   //     top: this.appInstance.position.top,
+  //   //     width: this.appInstance.size.width,
+  //   //     height: this.appInstance.size.height,
+  //   //   };
+  //   //   console.log('not maximized');
+  //   //   console.log('style: ', this.style);
+  //   // }
+  // }
 }

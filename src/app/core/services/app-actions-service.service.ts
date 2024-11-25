@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppInstance } from '../models/app-instance.model';
+import { BreakpointService, ScreenSize } from './breakpoint-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,42 +10,22 @@ export class AppActionsService {
   private openedAppsSubject = new BehaviorSubject<AppInstance[]>([]);
   public openedApps$ = this.openedAppsSubject.asObservable();
 
-  constructor() {}
+  constructor(private breakpointService: BreakpointService) {}
 
-  // public openApp(appInstance: AppInstance): void {
-  //   const currentApps = this.openedAppsSubject.getValue();
-  //   this.openedAppsSubject.next([...currentApps, appInstance]);
-  // }
-
-  // public updateApp(appInstance: AppInstance): void {
-  //   const currentApps = this.openedAppsSubject.value.map((app) =>
-  //     app.id === appInstance.id ? appInstance : app
-  //   );
-
-  //   this.openedAppsSubject.next(currentApps);
-  // }
-
-  /**
-   * Opens an application by name if it is not already opened.
-   *
-   * This method checks the currently opened applications to see if any
-   * match the provided name. If no instances are found, it creates a new
-   * `AppInstance` with a unique ID, default position, and default state
-   * (not minimized or maximized) and adds it to the list of opened applications.
-   *
-   * @param name - The name of the application to open.
-   */
   public openAction(name: string): void {
     const currentApps = this.openedAppsSubject.getValue();
     const appInstances = currentApps.filter((app) => app.name === name);
+
+    const screenSize = this.breakpointService.currentScreenSize;
+
+    const defaultConfig = this.getDefaultConfig(screenSize);
 
     if (appInstances.length < 1) {
       const appInstance: AppInstance = {
         id: Date.now(),
         name: name,
-        // position: { left: '100px', top: '100px' },
-        position: this.getPosition(appInstances.length),
-        size: { width: '400px', height: '600px' },
+        position: defaultConfig.position,
+        size: defaultConfig.size,
         isMinimized: false,
         isMaximized: false,
       };
@@ -53,14 +34,6 @@ export class AppActionsService {
     }
   }
 
-  /**
-   * Closes an application with the given ID.
-   *
-   * This method takes an application ID as an argument and removes the
-   * corresponding application from the list of opened applications.
-   *
-   * @param appId - The ID of the application to close.
-   */
   public closeAction(appId: any): void {
     const currentApps = this.openedAppsSubject.getValue();
     const filteredApps = currentApps.filter((app) => app.id !== appId);
@@ -76,21 +49,27 @@ export class AppActionsService {
   }
 
   public maximizeAction(appId: number): void {
-    this.updateState(appId, { isMaximized: true });
+    this.updateState(appId, {
+      isMaximized: true,
+      position: { left: '0', top: '0' },
+      size: { width: '100vw', height: '100vh' },
+      transform: 'translate3d(0px, 30px, 0px)',
+    });
   }
 
   public restoreMaximizedAction(appId: number): void {
-    this.updateState(appId, { isMaximized: false });
+    const screenSize = this.breakpointService.currentScreenSize;
+
+    const defaultConfig = this.getDefaultConfig(screenSize);
+
+    this.updateState(appId, {
+      isMaximized: false,
+      position: defaultConfig.position,
+      size: defaultConfig.size,
+      transform: 'translate3d(0px, 0px, 0px)',
+    });
   }
 
-  /**
-   * Updates an application with the given ID by applying the given updates to
-   * its state.
-   *
-   * @param appId - The ID of the application to update.
-   * @param updates - A partial application state with the properties to
-   *                  update.
-   */
   public updateState(appId: number, updates: Partial<AppInstance>): void {
     const currentApps = this.openedAppsSubject.getValue();
     const updatedApps = currentApps.map((app) => {
@@ -103,28 +82,33 @@ export class AppActionsService {
     this.openedAppsSubject.next(updatedApps);
   }
 
-  // public updateSizeAndPosition(
-  //   appId: number,
-  //   newSize: { width: number; height: number },
-  //   newPosition: { left: number; top: number }
-  // ): void {
-  //   const currentApps = this.openedAppsSubject.getValue();
-  //   const appInstance = currentApps.find((app) => app.id === appId);
-
-  //   if (appInstance) {
-  //     this.updateState(appId, {
-  //       size: { width: newSize.width, height: newSize.height },
-  //       position: { left: newPosition.left, top: newPosition.top },
-  //     });
-  //   }
-  // }
-
-  private getPosition(offsetMultiplier: number): { left: string; top: string } {
-    const offset = 30 * offsetMultiplier;
-
-    return {
-      left: `${100 + offset}px`,
-      top: `${100 + offset}px`,
-    };
+  private getDefaultConfig(screenSize: ScreenSize): {
+    position: { left: string; top: string };
+    size: { width: string; height: string };
+  } {
+    switch (screenSize) {
+      case ScreenSize.XSmall:
+        return {
+          position: { left: '10px', top: '50px' },
+          size: { width: '95%', height: '80%' },
+        };
+      case ScreenSize.Small:
+        return {
+          position: { left: '20px', top: '50px' },
+          size: { width: '80%', height: '70%' },
+        };
+      case ScreenSize.Medium:
+        return {
+          position: { left: '50px', top: '50px' },
+          size: { width: '70%', height: '60%' },
+        };
+      case ScreenSize.Large:
+      case ScreenSize.XLarge:
+      default:
+        return {
+          position: { left: '100px', top: '100px' },
+          size: { width: '60%', height: '50%' },
+        };
+    }
   }
 }
