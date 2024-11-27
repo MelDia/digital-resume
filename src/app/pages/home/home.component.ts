@@ -39,6 +39,7 @@ export class HomeComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((instances) => {
         this.appInstances = instances;
+        console.log(this.appInstances);
       });
   }
 
@@ -48,6 +49,7 @@ export class HomeComponent {
   }
 
   public open(name: string): void {
+    console.log(name);
     this.appService.openAction(name);
   }
 
