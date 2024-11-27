@@ -78,7 +78,6 @@ export class AppActionsService {
       }
       return app;
     });
-    console.log('updated apps: ', updatedApps);
     this.openedAppsSubject.next(updatedApps);
   }
 

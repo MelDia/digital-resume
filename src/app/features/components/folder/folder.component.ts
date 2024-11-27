@@ -1,40 +1,26 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  Renderer2,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { ScreenSizeDirective } from '../../../core/directives/screen-size-directive.directive';
-import { CommonModule } from '@angular/common';
-import { ScreenSize } from '../../../core/services/breakpoint-service.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
-import { AppActionsService } from '../../../core/services/app-actions-service.service';
-import { AppInstance } from '../../../core/models/app-instance.model';
-import { DragResizeService } from '../../../core/services/resize-service.service';
+import { ScreenSizeDirective } from '../../../core/directives/screen-size-directive.directive';
+import { ScreenSize } from '../../../core/services/breakpoint-service.service';
 import { Subject, takeUntil } from 'rxjs';
-import { transform } from 'typescript';
+import { AppInstance } from '../../../core/models/app-instance.model';
+import { AppActionsService } from '../../../core/services/app-actions-service.service';
+import { DragResizeService } from '../../../core/services/resize-service.service';
 
 @Component({
-  selector: 'app-notepad',
+  selector: 'app-folder',
   standalone: true,
   imports: [CommonModule, DragDropModule, ResizableModule, ScreenSizeDirective],
-  templateUrl: './notepad.component.html',
-  styleUrl: './notepad.component.scss',
+  templateUrl: './folder.component.html',
+  styleUrl: './folder.component.scss',
 })
-export class NotepadComponent implements OnInit {
+export class FolderComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
   ScreenSize = ScreenSize;
 
-  // @Input() style: object = {};
   @Input() appInstance!: AppInstance;
 
   get style(): { [key: string]: string } {
@@ -54,22 +40,15 @@ export class NotepadComponent implements OnInit {
 
   public appInstances: AppInstance[] = [];
 
-  // public isMaximized: boolean = false;
-
   constructor(
     private appService: AppActionsService,
     public resizeService: DragResizeService
   ) {}
-
   ngOnInit(): void {
     this.appService.openedApps$
       .pipe(takeUntil(this.destroy$))
       .subscribe((instances) => {
         this.appInstances = instances;
-
-        // const currentInstance = instances.find(
-        //   (app) => app.id === this.appInstance.id
-        // );
       });
   }
 

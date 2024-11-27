@@ -15,7 +15,7 @@
         <div class="icon-files-notes icon-img"></div>
         <p class="icon-label">Notepad</p>
       </div>
-      <div class="icon">
+      <div class="icon" (click)="open('folder')">
         <div class="icon-folder icon-img"></div>
         <p class="icon-label">
           System <br />
@@ -47,4 +47,13 @@
   (restoreMaximized)="restoreMaximized(app.id)"
 >
 </app-notepad>
+
+<app-folder
+  [appInstance]="app"
+  (close)="close(app.id)"
+  (minimize)="minimize(app.id)"
+  (maximize)="maximize(app.id)"
+  (restoreMaximized)="restoreMaximized(app.id)"
+>
+</app-folder>
 } }

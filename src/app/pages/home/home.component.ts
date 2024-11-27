@@ -10,6 +10,7 @@ import { AppActionsService } from '../../core/services/app-actions-service.servi
 import { CommonModule } from '@angular/common';
 import { AppInstance } from '../../core/models/app-instance.model';
 import { Subject, takeUntil } from 'rxjs';
+import { FolderComponent } from '../../features/components/folder/folder.component';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [
     TaskbarComponent,
     NotepadComponent,
+    FolderComponent,
     ScreenSizeDirective,
     CommonModule,
   ],
