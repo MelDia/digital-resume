@@ -32,11 +32,17 @@
       </div>
     </div>
   </div>
-  <div class="icon trash">
+  <div class="icon trash" (click)="showTrashBubble()">
     <div class="icon-trash icon-img"></div>
     <p class="icon-label">Trash</p>
   </div>
 </div>
+
+<app-bubble
+  #trashBubble
+  [direction]="'right'"
+  [bubbleType]="'trash-can'"
+></app-bubble>
 
 @for(app of appInstances; track $index) { @if(!app.isMinimized) { @switch
 (app.name) { @case ('notepad') {<app-notepad

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TaskbarComponent } from '../../features/components/taskbar/taskbar.component';
 import { NotepadComponent } from '../../features/components/notepad/notepad.component';
 import {
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { AppInstance } from '../../core/models/app-instance.model';
 import { Subject, takeUntil } from 'rxjs';
 import { FolderComponent } from '../../features/components/folder/folder.component';
+import { BubbleComponent } from '../../features/components/bubble/bubble.component';
 
 @Component({
   selector: 'app-home',
@@ -21,11 +22,13 @@ import { FolderComponent } from '../../features/components/folder/folder.compone
     FolderComponent,
     ScreenSizeDirective,
     CommonModule,
+    BubbleComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  @ViewChild('trashBubble') trashBubble!: BubbleComponent;
   private destroy$ = new Subject<void>();
 
   ScreenSize = ScreenSize;
@@ -39,13 +42,16 @@ export class HomeComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe((instances) => {
         this.appInstances = instances;
-        console.log(this.appInstances);
       });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public showTrashBubble(): void {
+    this.trashBubble.toggleBubble();
   }
 
   public open(name: string): void {
