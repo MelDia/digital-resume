@@ -8,11 +8,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { AppInstance } from '../../../core/models/app-instance.model';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 import { DragResizeService } from '../../../core/services/resize-service.service';
+import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
 
 @Component({
   selector: 'app-folder',
   standalone: true,
-  imports: [CommonModule, DragDropModule, ResizableModule, ScreenSizeDirective],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    ResizableModule,
+    ScreenSizeDirective,
+    BringToFrontDirective,
+  ],
   templateUrl: './folder.component.html',
   styleUrl: './folder.component.scss',
 })

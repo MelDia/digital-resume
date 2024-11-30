@@ -21,11 +21,18 @@ import { AppInstance } from '../../../core/models/app-instance.model';
 import { DragResizeService } from '../../../core/services/resize-service.service';
 import { Subject, takeUntil } from 'rxjs';
 import { transform } from 'typescript';
+import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
 
 @Component({
   selector: 'app-notepad',
   standalone: true,
-  imports: [CommonModule, DragDropModule, ResizableModule, ScreenSizeDirective],
+  imports: [
+    CommonModule,
+    DragDropModule,
+    ResizableModule,
+    ScreenSizeDirective,
+    BringToFrontDirective,
+  ],
   templateUrl: './notepad.component.html',
   styleUrl: './notepad.component.scss',
 })
