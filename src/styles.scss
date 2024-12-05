@@ -1,9 +1,12 @@
+@import url("assets/css/icons.scss");
+
 :root {
   --color-black: #000000;
   --color-dark-gray: #4a4a4a;
   --color-gray: #8a8a8a;
   --color-light-gray: #dfdfdf;
   --color-very-light-gray: #f5f5f5;
+  --color-white: #ffffff;
 
   --breakpoint-mobile: 576px;
   --breakpoint-tablet: 768px;
@@ -45,94 +48,11 @@
   font-style: normal;
 }
 
-.icon-folder {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url("assets/icons/interface-folder2.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-trash {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url("assets/icons/interface-trash-can.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-files-notes {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url("assets/icons/interface-files-notes.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-printer {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url("assets/icons/interface-printer.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-mailbox {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-  background-image: url("assets/icons/interface-mailbox.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-minimize {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url("assets/icons/interface-minimize.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-maximize {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url("assets/icons/interface-maximize.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-unmaximize {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url("assets/icons/interface-unmaximize.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.icon-close {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  background-image: url("assets/icons/interface-close.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+@font-face {
+  font-family: "minecraft";
+  src: url("assets/fonts/Minecraft.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {

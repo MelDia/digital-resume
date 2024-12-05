@@ -1,0 +1,201 @@
+.calculator {
+  background-color: var(--color-very-light-gray);
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-gray) 0.1rem,
+    transparent 0
+  );
+  background-size: 0.3rem 0.3rem;
+  background-repeat: space;
+
+  box-shadow: 0 4px 8px var(--color-black);
+  border: 1px solid var(--color-black);
+  border-radius: 10px;
+
+  position: fixed;
+  inset: 0px;
+
+  width: 230px;
+  height: 400px;
+
+  resize: both;
+
+  z-index: 99999;
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--color-black);
+  color: var(--color-very-light-gray);
+  box-shadow: 0 2px 0 var(--color-black);
+
+  padding: 5px;
+  margin: auto;
+
+  border-start-start-radius: 10px;
+  border-start-end-radius: 10px;
+}
+
+.calculator-title {
+  font-size: 1rem;
+  user-select: none;
+}
+
+.calculator-controls {
+  display: flex;
+  gap: 4px;
+
+  button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+}
+
+.calculator-content {
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1.2rem;
+  margin: auto;
+}
+
+.calculator-display {
+  height: 65px;
+  padding: 0 5px;
+  margin: 0;
+  border: 2px solid var(--color-black);
+  border-radius: 1px;
+
+  background-color: var(--color-very-light-gray);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+
+  .prev-operation {
+    font-size: 1rem;
+    font-family: "minecraft";
+    color: var(--color-black);
+    text-align: right;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .current-value {
+    font-size: 1.7rem;
+    font-family: "minecraft";
+    font-weight: bold;
+    color: var(--color-black);
+    text-align: right;
+  }
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  padding: 1.2rem 0 0;
+}
+
+.calculator-button {
+  height: 40px;
+  width: 40px;
+  border-radius: 0px;
+  box-shadow: 2px 2px 0 var(--color-black);
+  background-color: var(--color-white);
+}
+
+.calculator-button span {
+  width: 100%;
+  height: 100%;
+}
+
+.btn1 {
+  grid-area: 1 / 1 / 2 / 2;
+  padding: 0;
+}
+.btn2 {
+  padding: 0;
+  grid-area: 1 / 2 / 2 / 3;
+}
+.btn3 {
+  padding: 0;
+  grid-area: 1 / 3 / 2 / 4;
+}
+.btn4 {
+  padding: 0;
+  grid-area: 1 / 4 / 2 / 5;
+}
+.btn5 {
+  padding: 0;
+  grid-area: 2 / 1 / 3 / 2;
+}
+.btn6 {
+  padding: 0;
+  grid-area: 2 / 2 / 3 / 3;
+}
+.btn7 {
+  padding: 0;
+  grid-area: 2 / 3 / 3 / 4;
+}
+.btn8 {
+  padding: 0;
+  grid-area: 2 / 4 / 3 / 5;
+}
+.btn9 {
+  padding: 0;
+  grid-area: 3 / 1 / 4 / 2;
+}
+.btn10 {
+  padding: 0;
+  grid-area: 3 / 2 / 4 / 3;
+}
+.btn11 {
+  padding: 0;
+  grid-area: 3 / 3 / 4 / 4;
+}
+.btn12 {
+  padding: 0;
+  grid-area: 3 / 4 / 4 / 5;
+}
+.btn13 {
+  padding: 0;
+  grid-area: 4 / 1 / 5 / 2;
+}
+.btn14 {
+  padding: 0;
+  grid-area: 4 / 2 / 5 / 3;
+}
+.btn15 {
+  padding: 0;
+  grid-area: 4 / 3 / 5 / 4;
+}
+.btn16 {
+  padding: 0;
+  grid-area: 5 / 1 / 6 / 3;
+  width: 100%;
+}
+.btn17 {
+  padding: 0;
+  grid-area: 5 / 3 / 6 / 4;
+}
+.btn18 {
+  padding: 0;
+  grid-area: 4 / 4 / 6 / 5;
+  height: 100%;
+}

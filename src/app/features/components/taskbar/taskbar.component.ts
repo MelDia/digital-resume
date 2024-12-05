@@ -102,6 +102,8 @@ export class TaskbarComponent implements OnInit {
         return 'icon-printer';
       case 'email':
         return 'icon-email';
+      case 'calculator':
+        return 'icon-calculator';
       default:
         return 'icon-default';
     }

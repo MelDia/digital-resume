@@ -111,6 +111,32 @@
   background-color: var(--color-gray);
 }
 
+.icons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+// .icon-img {
+//   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+// }
+
+.icon-label {
+  margin-top: 1rem;
+  background-color: var(--color-very-light-gray);
+  padding: 0;
+  margin: 8px;
+  text-align: center;
+}
+
 mwlResizable {
   box-sizing: border-box;
 }

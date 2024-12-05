@@ -9,6 +9,7 @@ import { AppInstance } from '../../../core/models/app-instance.model';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 import { DragResizeService } from '../../../core/services/resize-service.service';
 import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
+import { CalculatorComponent } from '../calculator/calculator.component';
 
 @Component({
   selector: 'app-folder',
@@ -19,6 +20,7 @@ import { BringToFrontDirective } from '../../../core/directives/bring-to-front.d
     ResizableModule,
     ScreenSizeDirective,
     BringToFrontDirective,
+    CalculatorComponent,
   ],
   templateUrl: './folder.component.html',
   styleUrl: './folder.component.scss',
@@ -89,5 +91,26 @@ export class FolderComponent implements OnInit {
 
   public toggleCloseNotepad() {
     this.close.emit();
+  }
+
+  public openCalculator(name: string): void {
+    console.log(name);
+    this.appService.openAction(name);
+  }
+
+  public closeCalculator(id: number): void {
+    this.appService.closeAction(id);
+  }
+
+  public minimizeCalculator(id: number): void {
+    this.appService.minimizeAction(id);
+  }
+
+  public maximizeCalculator(id: number): void {
+    this.appService.maximizeAction(id);
+  }
+
+  public restoreMaximizedCalculator(id: number): void {
+    this.appService.restoreMaximizedAction(id);
   }
 }

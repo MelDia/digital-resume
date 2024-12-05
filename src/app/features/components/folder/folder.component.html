@@ -46,9 +46,16 @@
       </div>
     </div>
     <div class="folder-content">
-      <div class="folder-text">Hello World!</div>
-      <div class="folder-text">Hello World!</div>
-      <div class="folder-text">Hello World!</div>
+      <div class="icons">
+        <div class="icon" (click)="openCalculator('calculator')">
+          <div class="icon-calculator icon-img"></div>
+          <p class="icon-label">Calculator</p>
+        </div>
+        <div class="icon">
+          <div class="icon-files-notes icon-img"></div>
+          <p class="icon-label">Notepad</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -73,3 +80,14 @@
     [resizeEdges]="{ bottom: true }"
   ></div>
 </div>
+
+@for(app of appInstances; track $index) { @if(!app.isMinimized) { @switch
+(app.name) { @case ('calculator') {
+<app-calculator
+  [appInstance]="app"
+  (close)="closeCalculator(app.id)"
+  (minimize)="minimizeCalculator(app.id)"
+  (maximize)="maximizeCalculator(app.id)"
+  (restoreMaximized)="restoreMaximizedCalculator(app.id)"
+></app-calculator>
+} } } }

@@ -1,0 +1,98 @@
+<div
+  id="calculator"
+  class="calculator"
+  [componentId]="'calculator'"
+  appBringToFront
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  [ngStyle]="style"
+>
+  <div class="calculator-container">
+    <div class="calculator-header" cdkDragHandle>
+      <div class="calculator-title">Calculator</div>
+      <div class="calculator-controls">
+        <button class="calculator-minimize" (click)="toggleMinimizeNotepad()">
+          <div class="icon-minimize"></div>
+        </button>
+        <button class="calculator-close" (click)="toggleCloseNotepad()">
+          <div class="icon-close"></div>
+        </button>
+      </div>
+    </div>
+    <div class="calculator-content">
+      <div class="calculator-display">
+        <div class="prev-operation">
+          <small
+            >{{ previousValue }} {{ currentOperation }}
+            {{ pendingValue }}</small
+          >
+        </div>
+        <div class="current-value">
+          <span>{{ displayValue }}</span>
+        </div>
+      </div>
+      <div class="calculator-buttons">
+        <button class="calculator-button btn1" (click)="clearDisplay()">
+          <span class="icon-clear"></span>
+        </button>
+        <button class="calculator-button btn2" (click)="deleteChar()">
+          <span class="icon-backspace"></span>
+        </button>
+        <button class="calculator-button btn3" (click)="operation('division')">
+          <span class="icon-divide"></span>
+        </button>
+        <button
+          class="calculator-button btn4"
+          (click)="operation('multiplication')"
+        >
+          <span class="icon-multiply"></span>
+        </button>
+        <button class="calculator-button btn5" (click)="appendChar('7')">
+          <span class="icon-number-seven"></span>
+        </button>
+        <button class="calculator-button btn6" (click)="appendChar('8')">
+          <span class="icon-number-eight"></span>
+        </button>
+        <button class="calculator-button btn7" (click)="appendChar('9')">
+          <span class="icon-number-nine"></span>
+        </button>
+        <button
+          class="calculator-button btn8"
+          (click)="operation('subtraction')"
+        >
+          <span class="icon-minus"></span>
+        </button>
+        <button class="calculator-button btn9" (click)="appendChar('4')">
+          <span class="icon-number-four"></span>
+        </button>
+        <button class="calculator-button btn10" (click)="appendChar('5')">
+          <span class="icon-number-five"></span>
+        </button>
+        <button class="calculator-button btn11" (click)="appendChar('6')">
+          <span class="icon-number-six"></span>
+        </button>
+        <button class="calculator-button btn12" (click)="operation('addition')">
+          <span class="icon-plus"></span>
+        </button>
+        <button class="calculator-button btn13" (click)="appendChar('1')">
+          <span class="icon-number-one"></span>
+        </button>
+        <button class="calculator-button btn14" (click)="appendChar('2')">
+          <span class="icon-number-two"></span>
+        </button>
+        <button class="calculator-button btn15" (click)="appendChar('3')">
+          <span class="icon-number-three"></span>
+        </button>
+        <button class="calculator-button btn16" (click)="appendChar('0')">
+          <span class="icon-number-zero"></span>
+        </button>
+        <button class="calculator-button btn17" (click)="appendChar('.')">
+          <span class="icon-decimal"></span>
+        </button>
+        <button class="calculator-button btn18" (click)="calculate()">
+          <span class="icon-equals"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
