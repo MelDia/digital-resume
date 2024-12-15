@@ -12,6 +12,7 @@ import { AppInstance } from '../../core/models/app-instance.model';
 import { Subject, takeUntil } from 'rxjs';
 import { FolderComponent } from '../../features/components/folder/folder.component';
 import { BubbleComponent } from '../../features/components/bubble/bubble.component';
+import { CalculatorComponent } from '../../features/components/calculator/calculator.component';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ import { BubbleComponent } from '../../features/components/bubble/bubble.compone
     TaskbarComponent,
     NotepadComponent,
     FolderComponent,
+    CalculatorComponent,
     ScreenSizeDirective,
     CommonModule,
     BubbleComponent,
@@ -54,8 +56,8 @@ export class HomeComponent {
     this.trashBubble.toggleBubble();
   }
 
+  // App controls
   public open(name: string): void {
-    console.log(name);
     this.appService.openAction(name);
   }
 

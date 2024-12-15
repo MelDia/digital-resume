@@ -33,8 +33,6 @@ export class CalculatorComponent implements OnInit {
 
   @Output() close = new EventEmitter<void>();
   @Output() minimize = new EventEmitter<void>();
-  @Output() maximize = new EventEmitter<void>();
-  @Output() restoreMaximized = new EventEmitter<void>();
 
   public appInstances: AppInstance[] = [];
 
@@ -139,16 +137,9 @@ export class CalculatorComponent implements OnInit {
     }
   }
 
+  // Calculator controls
   public toggleMinimizeNotepad() {
     this.minimize.emit();
-  }
-
-  public toggleMaximizeNotepad() {
-    this.maximize.emit();
-  }
-
-  public toggleRestoreMaximizeNotepad() {
-    this.restoreMaximized.emit();
   }
 
   public toggleCloseNotepad() {

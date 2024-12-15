@@ -23,24 +23,24 @@
     <div class="folder-header" cdkDragHandle>
       <div class="folder-title">System Folder</div>
       <div class="folder-controls">
-        <button class="folder-minimize" (click)="toggleMinimizeNotepad()">
+        <button class="folder-minimize" (click)="toggleMinimizeFolder()">
           <div class="icon-minimize"></div>
         </button>
         <button
           *ngIf="!this.appInstance.isMaximized"
           class="folder-maximize"
-          (click)="toggleMaximizeNotepad()"
+          (click)="toggleMaximizeFolder()"
         >
           <div class="icon-maximize"></div>
         </button>
         <button
           *ngIf="this.appInstance.isMaximized"
           class="folder-restore-maximize"
-          (click)="toggleRestoreMaximizeNotepad()"
+          (click)="toggleRestoreMaximizeFolder()"
         >
           <div class="icon-unmaximize"></div>
         </button>
-        <button class="folder-close" (click)="toggleCloseNotepad()">
+        <button class="folder-close" (click)="toggleCloseFolder()">
           <div class="icon-close"></div>
         </button>
       </div>
@@ -53,7 +53,7 @@
         </div>
         <div class="icon">
           <div class="icon-files-notes icon-img"></div>
-          <p class="icon-label">Notepad</p>
+          <p class="icon-label">Folder</p>
         </div>
       </div>
     </div>
@@ -81,13 +81,11 @@
   ></div>
 </div>
 
-@for(app of appInstances; track $index) { @if(!app.isMinimized) { @switch
+<!-- @for(app of appInstances; track $index) { @if(!app.isMinimized) { @switch
 (app.name) { @case ('calculator') {
 <app-calculator
   [appInstance]="app"
   (close)="closeCalculator(app.id)"
   (minimize)="minimizeCalculator(app.id)"
-  (maximize)="maximizeCalculator(app.id)"
-  (restoreMaximized)="restoreMaximizedCalculator(app.id)"
 ></app-calculator>
-} } } }
+} } } } -->
