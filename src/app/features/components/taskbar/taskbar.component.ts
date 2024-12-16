@@ -12,11 +12,13 @@ import { ScreenSize } from '../../../core/services/breakpoint-service.service';
 import { interval, Subject, Subscription, takeUntil } from 'rxjs';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
+import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
+import { WindowManagerService } from '../../../core/services/window-manager.service';
 
 @Component({
   selector: 'app-taskbar',
   standalone: true,
-  imports: [CommonModule, CalendarComponent],
+  imports: [CommonModule, CalendarComponent, BringToFrontDirective],
   templateUrl: './taskbar.component.html',
   styleUrl: './taskbar.component.scss',
 })
@@ -42,7 +44,8 @@ export class TaskbarComponent implements OnInit {
 
   constructor(
     private eRef: ElementRef,
-    private appService: AppActionsService
+    private appService: AppActionsService,
+    private windowManagerService: WindowManagerService
   ) {}
 
   ngOnInit(): void {
@@ -109,7 +112,15 @@ export class TaskbarComponent implements OnInit {
     }
   }
 
-  public toggleMinimizedApp(appId: any) {
-    this.appService.restoreMinimizedAction(appId);
+  public toggleMinimizedApp(app: any) {
+    this.appService.restoreMinimizedAction(app.id);
+
+    const zIndex = this.windowManagerService.bringToFront(app.name);
+    const appElement = document.querySelector(
+      `[data-app-id="${app.name}"]`
+    ) as HTMLElement;
+    if (appElement) {
+      appElement.style.zIndex = zIndex.toString();
+    }
   }
 }
