@@ -107,6 +107,8 @@ export class TaskbarComponent implements OnInit {
         return 'icon-email';
       case 'calculator':
         return 'icon-calculator';
+      case 'cmd-terminal':
+        return 'icon-cmd';
       default:
         return 'icon-default';
     }

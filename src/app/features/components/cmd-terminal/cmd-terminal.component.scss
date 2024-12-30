@@ -1,0 +1,197 @@
+.cmd-terminal {
+  background-color: var(--color-black);
+
+  box-shadow: 0 4px 8px var(--color-black);
+  border: 1px solid var(--color-very-light-gray);
+
+  position: fixed;
+  inset: 0px;
+
+  width: 400px;
+  height: 600px;
+
+  max-width: 100vw;
+  max-height: 100dvh;
+
+  resize: both;
+
+  z-index: 99999;
+}
+
+.cmd-terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--color-very-light-gray);
+  color: var(--color-black);
+  box-shadow: 0 2px 0 var(--color-black);
+
+  padding: 5px;
+  margin: auto;
+}
+
+.cmd-terminal-title {
+  font-size: 1rem;
+  user-select: none;
+}
+
+.cmd-terminal-controls {
+  display: flex;
+  gap: 4px;
+
+  button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+}
+
+.cmd-terminal-content {
+  width: 100%;
+  height: 90%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  white-space: normal;
+  overflow-wrap: break-word;
+
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+
+  box-sizing: border-box;
+
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: "Courier New", Courier, monospace;
+}
+
+.cmd-terminal-content::-webkit-scrollbar {
+  width: 25px;
+  background-color: var(--color-very-light-gray);
+}
+
+.cmd-terminal-content::-webkit-scrollbar-track {
+  background-color: var(--color-light-gray);
+  border: 2px solid var(--color-black);
+}
+
+.cmd-terminal-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-very-light-gray);
+  border: 2px solid var(--color-black);
+}
+
+.cmd-terminal-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-gray);
+}
+
+.cmd-terminal-content::-webkit-scrollbar-button:single-button:vertical:decrement {
+  width: 25px;
+  height: 25px;
+  background-color: var(--color-very-light-gray);
+  border: 2px solid var(--color-black);
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="16" height="16"%3E%3Cpath fill="%23666" d="M10 6L4 12h12L10 6z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.cmd-terminal-content::-webkit-scrollbar-button:single-button:vertical:increment {
+  width: 25px;
+  height: 25px;
+  background-color: var(--color-very-light-gray);
+  border: 2px solid var(--color-black);
+  background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="16" height="16"%3E%3Cpath fill="%23666" d="M10 14L4 8h12l-6 6z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.cmd-terminal-content::-webkit-scrollbar-button:single-button:hover {
+  background-color: var(--color-gray);
+}
+
+.terminal-lines {
+  white-space: pre-wrap;
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.terminal-input input {
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  flex: 1;
+  // caret-color: transparent;
+}
+
+.cursor {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  background: var(--color-white);
+  width: 8px;
+  height: 1em;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+mwlResizable {
+  box-sizing: border-box;
+}
+
+.resize-handle-top,
+.resize-handle-bottom {
+  position: absolute;
+  height: 5px;
+  cursor: row-resize;
+  width: 100%;
+}
+
+.resize-handle-top {
+  top: 0;
+}
+
+.resize-handle-bottom {
+  bottom: 0;
+}
+
+.resize-handle-left,
+.resize-handle-right {
+  position: absolute;
+  height: 100%;
+  cursor: col-resize;
+  width: 5px;
+}
+
+.resize-handle-left {
+  left: 0;
+  top: 0;
+}
+
+.resize-handle-right {
+  right: 0;
+  top: 0;
+}

@@ -97,4 +97,9 @@ export class FolderComponent implements OnInit {
   public openCalculator(name: string): void {
     this.appService.openAction(name);
   }
+
+  // Cmd Controls
+  public openCmd(name: string): void {
+    this.appService.openAction(name);
+  }
 }

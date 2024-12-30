@@ -13,6 +13,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FolderComponent } from '../../features/components/folder/folder.component';
 import { BubbleComponent } from '../../features/components/bubble/bubble.component';
 import { CalculatorComponent } from '../../features/components/calculator/calculator.component';
+import { CmdTerminalComponent } from '../../features/components/cmd-terminal/cmd-terminal.component';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ import { CalculatorComponent } from '../../features/components/calculator/calcul
     ScreenSizeDirective,
     CommonModule,
     BubbleComponent,
+    CmdTerminalComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

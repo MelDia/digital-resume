@@ -1,0 +1,92 @@
+<div
+  *appShowOnScreenSize="[
+    ScreenSize.XSmall,
+    ScreenSize.Small,
+    ScreenSize.Medium,
+    ScreenSize.Large,
+    ScreenSize.XLarge
+  ]"
+  id="cmd-terminal"
+  class="cmd-terminal"
+  appBringToFront
+  [componentId]="'cmd-terminal'"
+  data-app-id="cmd-terminal"
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  [ngStyle]="style"
+  mwlResizable
+  [validateResize]="resizeService.validate"
+  [enableGhostResize]="true"
+  [resizeSnapGrid]="{ left: 1, right: 1 }"
+  (resizeEnd)="onResizeEnd($event)"
+>
+  <div class="cmd-terminal-container">
+    <div class="cmd-terminal-header">
+      <div class="cmd-terminal-header-title">Command Prompt</div>
+      <div class="cmd-terminal-controls">
+        <button
+          class="cmd-terminal-minimize"
+          (click)="toggleMinimizeCmdTerminal()"
+        >
+          <div class="icon-minimize"></div>
+        </button>
+        <button
+          *ngIf="!this.appInstance.isMaximized"
+          class="cmd-terminal-maximize"
+          (click)="toggleMaximizeCmdTerminal()"
+        >
+          <div class="icon-maximize"></div>
+        </button>
+        <button
+          *ngIf="this.appInstance.isMaximized"
+          class="cmd-terminal-restore-maximize"
+          (click)="toggleRestoreMaximizeCmdTerminal()"
+        >
+          <div class="icon-unmaximize"></div>
+        </button>
+        <button class="cmd-terminal-close" (click)="toggleCloseCmdTerminal()">
+          <div class="icon-close"></div>
+        </button>
+      </div>
+    </div>
+
+    <div class="cmd-terminal-content">
+      <div class="terminal-lines">
+        <div *ngFor="let line of terminalLines">{{ line }}</div>
+      </div>
+      <div class="terminal-input">
+        <span>C:\Users\Meldia\Portfolio&gt;</span>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            [(ngModel)]="terminalInput"
+            (keydown.enter)="executeCommand()"
+            autofocus
+          />
+          <span class="cursor" *ngIf="cursorVisible">_</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="resize-handle-top"
+      mwlResizeHandle
+      [resizeEdges]="{ top: true }"
+    ></div>
+    <div
+      class="resize-handle-left"
+      mwlResizeHandle
+      [resizeEdges]="{ left: true }"
+    ></div>
+    <div
+      class="resize-handle-right"
+      mwlResizeHandle
+      [resizeEdges]="{ right: true }"
+    ></div>
+    <div
+      class="resize-handle-bottom"
+      mwlResizeHandle
+      [resizeEdges]="{ bottom: true }"
+    ></div>
+  </div>
+</div>
