@@ -10,12 +10,19 @@
   width: 400px;
   height: 600px;
 
+  min-width: 300px;
+  min-height: 300px;
   max-width: 100vw;
   max-height: 100dvh;
 
   resize: both;
 
   z-index: 99999;
+}
+
+.cmd-terminal-container {
+  width: 100%;
+  height: 100%;
 }
 
 .cmd-terminal-header {
@@ -29,6 +36,8 @@
 
   padding: 5px;
   margin: auto;
+
+  cursor: move;
 }
 
 .cmd-terminal-title {
@@ -119,11 +128,16 @@
 
 .terminal-lines {
   white-space: pre-wrap;
+  display: flex;
+  gap: 3px;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .terminal-input {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 
 .input-wrapper {
@@ -139,17 +153,12 @@
   font-family: inherit;
   font-size: inherit;
   flex: 1;
-  // caret-color: transparent;
+  margin-left: 8px;
+  caret-color: transparent;
 }
 
-.cursor {
-  position: absolute;
-  right: 0;
-  bottom: 5px;
-  background: var(--color-white);
-  width: 8px;
-  height: 1em;
-  animation: blink 1s infinite;
+.blinking-cursor {
+  animation: blink 0.8s step-start infinite;
 }
 
 @keyframes blink {

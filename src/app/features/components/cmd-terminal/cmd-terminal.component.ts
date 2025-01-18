@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
 import { ScreenSizeDirective } from '../../../core/directives/screen-size-directive.directive';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
@@ -47,6 +55,8 @@ export class CmdTerminalComponent implements OnInit {
   @Output() maximize = new EventEmitter<void>();
   @Output() restoreMaximized = new EventEmitter<void>();
 
+  @ViewChild('terminalContainer') terminalContainer!: ElementRef;
+
   public appInstances: AppInstance[] = [];
   public terminalLines: string[] = [];
   public terminalInput: string = '';
@@ -55,26 +65,47 @@ export class CmdTerminalComponent implements OnInit {
   private commandList: { [key: string]: string[] } = {
     help: [
       'Available commands:',
+      '- profile: Show my professional profile',
       '- skills    Show a list of my technical skills',
-      '- projects  Display my recent projects',
+      '- experience: Show my work experience',
+      '- education: Show my certifications and education',
       '- contact   Get my contact details',
       '- clear     Clear the terminal screen',
     ],
+    profile: [
+      'Melina J. Diaz (Meldia)',
+      'Full-stack Developer',
+      'Passionate about building scalable and efficient web solutions with a focus on user experience.',
+    ],
     skills: [
       'Technical Skills:',
-      '- HTML, CSS, JavaScript',
-      '- Angular, Node.js',
-      '- Git, Figma',
+      '- Front-end: HTML, CSS, JavaScript, TypeScript, Angular, Ionic, WebGL.',
+      '- Back-end: Java (Spring, Spring Boot), Node.js, Express.js.',
+      '- Databases: MySQL, SQL Server, Oracle, MongoDB.',
+      '- Others: Docker, Kubernetes, Git, Linux, Jira.',
     ],
-    projects: [
-      'Recent Projects:',
-      '1. Retro Portfolio - A fully interactive digital CV (current project)',
-      '2. Task Manager - A web app to manage daily tasks',
+    experience: [
+      '2023-Present: Full-stack Developer at Sistemas Planificados S.A.',
+      '- Developed scalable applications with Java and Angular.',
+      '- Managed microservices and optimized database performance.',
+      '',
+      '2022-2023: Software Developer at Factor IT.',
+      '- Integrated APIs RESTful into Angular applications.',
+      '- Developed a mobile app using Ionic.',
+      '',
+      '2020-2022: Freelance Full-stack Web Developer.',
+      '- Designed responsive web layouts using HTML, CSS, and SASS.',
+      '- Created and maintained APIs with Node.js and Java.',
+    ],
+    education: [
+      'Certifications:',
+      '- Java/Angular (Global Mentoring, 2021-2023)',
+      '- Docker and Kubernetes (Academind, 2023-2024)',
     ],
     contact: [
       'Contact Information:',
       '- Email: diaz.melinajimena@gmail.com',
-      '- LinkedIn: linkedin.com/in/melina',
+      '- LinkedIn: linkedin.com/in/melina-j-diaz',
     ],
     clear: [],
   };
@@ -89,8 +120,6 @@ export class CmdTerminalComponent implements OnInit {
       .subscribe((instances) => {
         this.appInstances = instances;
       });
-
-    // this.startCursorBlink();
   }
 
   ngOnDestroy() {
@@ -134,46 +163,7 @@ export class CmdTerminalComponent implements OnInit {
 
   public executeCommand(): void {
     const command = this.terminalInput.trim();
-    this.terminalLines.push(`C:\\Users\\Meldia\\Portfolio> ${command}`);
-
-    // switch (command.toLowerCase()) {
-    //   case 'help':
-    //     this.terminalLines.push('Available commands:');
-    //     this.terminalLines.push(
-    //       '- skills    Show a list of my technical skills'
-    //     );
-    //     this.terminalLines.push('- projects  Display my recent projects');
-    //     this.terminalLines.push('- contact   Get my contact details');
-    //     this.terminalLines.push('- clear     Clear the terminal screen');
-    //     break;
-    //   case 'skills':
-    //     this.terminalLines.push('Technical Skills:');
-    //     this.terminalLines.push('- HTML, CSS, JavaScript');
-    //     this.terminalLines.push('- Angular, Node.js');
-    //     this.terminalLines.push('- Git, Figma');
-    //     break;
-    //   case 'projects':
-    //     this.terminalLines.push('Recent Projects:');
-    //     this.terminalLines.push(
-    //       '1. Retro Portfolio - A fully interactive digital CV (current project)'
-    //     );
-    //     this.terminalLines.push(
-    //       '2. Task Manager - A web app to manage daily tasks'
-    //     );
-    //     break;
-    //   case 'contact':
-    //     this.terminalLines.push('Contact Information:');
-    //     this.terminalLines.push('- Email: melina@example.com');
-    //     this.terminalLines.push('- LinkedIn: linkedin.com/in/melina');
-    //     break;
-    //   case 'clear':
-    //     this.terminalLines = [];
-    //     break;
-    //   default:
-    //     this.terminalLines.push(
-    //       `'${command}' is not recognized as an internal or external command.`
-    //     );
-    // }
+    this.terminalLines.push(`> ${command}`);
 
     if (this.commandList[command]) {
       this.terminalLines.push(...this.commandList[command]);
@@ -182,10 +172,19 @@ export class CmdTerminalComponent implements OnInit {
       }
     } else {
       this.terminalLines.push(
-        `'${command}' is not recognized as an internal or external command.`
+        `'${command}' is not recognized as an internal or external command,
+operable program or batch file.`
       );
     }
 
     this.terminalInput = '';
+    this.scrollToBottom();
+  }
+
+  public scrollToBottom() {
+    setTimeout(() => {
+      const container = this.terminalContainer.nativeElement;
+      container.scrollTop = container.scrollHeight;
+    }, 0);
   }
 }

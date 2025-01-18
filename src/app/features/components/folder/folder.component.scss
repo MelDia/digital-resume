@@ -14,6 +14,8 @@
   max-height: 100dvh;
 
   resize: both;
+
+  z-index: 99999;
 }
 
 .folder-header {
@@ -123,6 +125,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  width: 120px;
 }
 
 // .icon-img {

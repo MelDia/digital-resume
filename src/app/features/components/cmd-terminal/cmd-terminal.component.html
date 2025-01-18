@@ -21,7 +21,7 @@
   (resizeEnd)="onResizeEnd($event)"
 >
   <div class="cmd-terminal-container">
-    <div class="cmd-terminal-header">
+    <div class="cmd-terminal-header" cdkDragHandle>
       <div class="cmd-terminal-header-title">Command Prompt</div>
       <div class="cmd-terminal-controls">
         <button
@@ -49,21 +49,20 @@
         </button>
       </div>
     </div>
-
-    <div class="cmd-terminal-content">
+    <div class="cmd-terminal-content" #terminalContainer>
+      <span>&gt; Type 'help' to get list of commands.</span>
       <div class="terminal-lines">
         <div *ngFor="let line of terminalLines">{{ line }}</div>
       </div>
       <div class="terminal-input">
-        <span>C:\Users\Meldia\Portfolio&gt;</span>
         <div class="input-wrapper">
+          <span class="blinking-cursor">&gt;</span>
           <input
             type="text"
             [(ngModel)]="terminalInput"
             (keydown.enter)="executeCommand()"
             autofocus
           />
-          <span class="cursor" *ngIf="cursorVisible">_</span>
         </div>
       </div>
     </div>
