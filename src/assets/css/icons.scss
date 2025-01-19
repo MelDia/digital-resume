@@ -78,6 +78,16 @@
   background-position: center;
 }
 
+.icon-music {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  background-image: url("../icons/interface-music.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .icon-minimize {
   display: inline-block;
   width: 20px;
@@ -303,6 +313,56 @@
   width: 64px;
   height: 64px;
   background-image: url("../icons/interface-decimal.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-play {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("../icons/interface-btn-play.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-pause {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("../icons/interface-btn-pause.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-stop {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("../icons/interface-btn-stop.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-next {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("../icons/interface-btn-next.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.icon-previous {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("../icons/interface-btn-prev.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

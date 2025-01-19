@@ -109,6 +109,8 @@ export class TaskbarComponent implements OnInit {
         return 'icon-calculator';
       case 'cmd-terminal':
         return 'icon-cmd';
+      case 'music-player':
+        return 'icon-music';
       default:
         return 'icon-default';
     }

@@ -14,6 +14,7 @@ import { FolderComponent } from '../../features/components/folder/folder.compone
 import { BubbleComponent } from '../../features/components/bubble/bubble.component';
 import { CalculatorComponent } from '../../features/components/calculator/calculator.component';
 import { CmdTerminalComponent } from '../../features/components/cmd-terminal/cmd-terminal.component';
+import { MusicPlayerComponent } from '../../features/components/music-player/music-player.component';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ import { CmdTerminalComponent } from '../../features/components/cmd-terminal/cmd
     CommonModule,
     BubbleComponent,
     CmdTerminalComponent,
+    MusicPlayerComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

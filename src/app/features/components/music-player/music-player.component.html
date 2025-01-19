@@ -1,0 +1,65 @@
+<div
+  id="music-player"
+  class="music-player"
+  [componentId]="'music-player'"
+  data-app-id="music-player"
+  appBringToFront
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  [ngStyle]="style"
+>
+  <div class="music-player-container">
+    <div class="music-player-header" cdkDragHandle>
+      <div class="music-player-title">Music Player</div>
+      <div class="music-player-controls">
+        <button class="music-player-minimize" (click)="toggleMinimizeMusic()">
+          <div class="icon-minimize"></div>
+        </button>
+        <button class="music-player-close" (click)="toggleCloseMusic()">
+          <div class="icon-close"></div>
+        </button>
+      </div>
+    </div>
+
+    <div class="music-player-content">
+      <div class="player-screen">
+        <div class="screen-info marquee-container">
+          <span
+            #artistInfoElement
+            class="artist-info"
+            [class.marquee-content]="isArtistOverflowing"
+            >{{ artistInfo }}</span
+          >
+          <span
+            #songInfoElement
+            class="song-info"
+            [class.marquee-content]="isSongOverflowing"
+            >{{ songInfo }}</span
+          >
+        </div>
+        <div class="duration-info">{{ durationInfo }}</div>
+      </div>
+      <div class="player-progress">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [value]="progressValue"
+          class="progress-bar"
+          (input)="onProgressChange($event)"
+        />
+      </div>
+      <div class="player-controls">
+        <button class="control-btn"><span class="icon-previous"></span></button>
+        <button class="control-btn" *ngIf="!isPlaying">
+          <span class="icon-play"></span>
+        </button>
+        <button class="control-btn" *ngIf="isPlaying">
+          <span class="icon-pause"></span>
+        </button>
+        <button class="control-btn"><span class="icon-stop"></span></button>
+        <button class="control-btn"><span class="icon-next"></span></button>
+      </div>
+    </div>
+  </div>
+</div>

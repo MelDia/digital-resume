@@ -102,4 +102,9 @@ export class FolderComponent implements OnInit {
   public openCmd(name: string): void {
     this.appService.openAction(name);
   }
+
+  // Music player Controls
+  public openMusicPlayer(name: string): void {
+    this.appService.openAction(name);
+  }
 }

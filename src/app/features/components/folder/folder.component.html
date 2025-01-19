@@ -56,6 +56,10 @@
           <div class="icon-cmd icon-img"></div>
           <p class="icon-label">Command Prompt</p>
         </div>
+        <div class="icon" (click)="openMusicPlayer('music-player')">
+          <div class="icon-music icon-img"></div>
+          <p class="icon-label">Music Player</p>
+        </div>
       </div>
     </div>
   </div>
@@ -81,12 +85,3 @@
     [resizeEdges]="{ bottom: true }"
   ></div>
 </div>
-
-<!-- @for(app of appInstances; track $index) { @if(!app.isMinimized) { @switch
-(app.name) { @case ('calculator') {
-<app-calculator
-  [appInstance]="app"
-  (close)="closeCalculator(app.id)"
-  (minimize)="minimizeCalculator(app.id)"
-></app-calculator>
-} } } } -->
