@@ -16,6 +16,7 @@ import { DragResizeService } from '../../../core/services/resize-service.service
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
+import { SpotifyService } from '../../../core/services/spotify.service';
 
 @Component({
   selector: 'app-music-player',
@@ -47,10 +48,17 @@ export class MusicPlayerComponent implements OnInit {
   @ViewChild('songInfoElement') songInfoElement!: ElementRef;
 
   public appInstances: AppInstance[] = [];
-  public artistInfo: string = 'Lisa Stansfield';
-  public songInfo: string = 'Never Gonna Give You Up Richie Sambora';
-  public durationInfo: string = '03:00:00';
+
+  public artistInfo: string = '';
+  public songInfo: string = '';
+  public durationInfo: string = '';
+
   public progressValue: number = 0;
+  public playlistTracks: any[] = [];
+  public currentTrack: any = null;
+  public currentTrackIndex: number = 0;
+
+  private playbackInterval: any;
 
   public isArtistOverflowing: boolean = false;
   public isSongOverflowing: boolean = false;
@@ -59,6 +67,7 @@ export class MusicPlayerComponent implements OnInit {
   constructor(
     private appService: AppActionsService,
     public resizeService: DragResizeService,
+    private spotifyService: SpotifyService,
     private cdr: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
@@ -67,6 +76,8 @@ export class MusicPlayerComponent implements OnInit {
       .subscribe((instances) => {
         this.appInstances = instances;
       });
+
+    this.loadPlaylist();
   }
 
   ngAfterViewInit(): void {
@@ -77,6 +88,101 @@ export class MusicPlayerComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public loadPlaylist(): void {
+    const query = '70s 80s 90s';
+
+    this.spotifyService
+      .searchPlaylist(query)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        const playlist = data.playlists.items[0];
+
+        this.spotifyService
+          .getPlaylistTracks(playlist.id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((tracks) => {
+            this.playlistTracks = tracks.items
+              .filter((item: any) => item.track)
+              .map((item: any) => {
+                const track = item.track;
+
+                return {
+                  id: track.id,
+                  uri: track.uri,
+                  href: track.href,
+                  name: track.name,
+                  artist: track.artists
+                    .map((artist: any) => artist.name)
+                    .join(', '),
+                  album: track.album.name,
+                  duration: this.formatDuration(track.duration_ms),
+                };
+              });
+            console.log('Processed Playlist Tracks: ', this.playlistTracks);
+          });
+      });
+  }
+
+  // Methods for music player
+  public updateMusicPlayer(): void {
+    const track = this.playlistTracks[this.currentTrackIndex];
+    this.artistInfo = track.artist;
+    this.songInfo = track.name;
+    this.durationInfo = track.duration;
+    this.progressValue = 0;
+  }
+
+  public togglePlayTrack(): void {
+    this.isPlaying = true;
+    this.simulatePlayback();
+  }
+
+  public togglePauseTrack(): void {
+    this.isPlaying = false;
+    clearInterval(this.playbackInterval);
+  }
+
+  public toggleStopTrack(): void {
+    this.isPlaying = false;
+    clearInterval(this.playbackInterval);
+    this.progressValue = 0;
+  }
+
+  public toggleNextTrack(): void {
+    this.toggleStopTrack();
+    this.currentTrackIndex =
+      (this.currentTrackIndex + 1) % this.playlistTracks.length;
+    this.updateMusicPlayer();
+  }
+
+  public togglePreviousTrack(): void {
+    this.toggleStopTrack();
+    this.currentTrackIndex =
+      (this.currentTrackIndex - 1 + this.playlistTracks.length) %
+      this.playlistTracks.length;
+    this.updateMusicPlayer();
+  }
+
+  public simulatePlayback(): void {
+    const trackDuration = this.playlistTracks[this.currentTrackIndex].duration;
+    const [minutes, seconds] = trackDuration.split(':').map(Number);
+    const totalSeconds = minutes * 60 + seconds;
+
+    this.playbackInterval = setInterval(() => {
+      if (this.progressValue < 100) {
+        this.progressValue += (100 / totalSeconds) * 1;
+      } else {
+        this.toggleNextTrack();
+      }
+    }, 1000);
+  }
+
+  public formatDuration(duration: number): string {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.floor((duration % 60000) / 1000);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
   // Music player controls

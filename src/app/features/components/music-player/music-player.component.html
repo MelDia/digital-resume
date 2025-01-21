@@ -50,15 +50,29 @@
         />
       </div>
       <div class="player-controls">
-        <button class="control-btn"><span class="icon-previous"></span></button>
-        <button class="control-btn" *ngIf="!isPlaying">
+        <button class="control-btn" (click)="togglePreviousTrack()">
+          <span class="icon-previous"></span>
+        </button>
+        <button
+          class="control-btn"
+          *ngIf="!isPlaying"
+          (click)="togglePlayTrack()"
+        >
           <span class="icon-play"></span>
         </button>
-        <button class="control-btn" *ngIf="isPlaying">
+        <button
+          class="control-btn"
+          *ngIf="isPlaying"
+          (click)="togglePauseTrack()"
+        >
           <span class="icon-pause"></span>
         </button>
-        <button class="control-btn"><span class="icon-stop"></span></button>
-        <button class="control-btn"><span class="icon-next"></span></button>
+        <button class="control-btn" (click)="toggleStopTrack()">
+          <span class="icon-stop"></span>
+        </button>
+        <button class="control-btn" (click)="toggleNextTrack()">
+          <span class="icon-next"></span>
+        </button>
       </div>
     </div>
   </div>
