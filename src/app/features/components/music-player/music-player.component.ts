@@ -4,6 +4,8 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -16,7 +18,10 @@ import { DragResizeService } from '../../../core/services/resize-service.service
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
-import { SpotifyService } from '../../../core/services/spotify.service';
+import {
+  MusicService,
+  Track,
+} from '../../../core/services/music-service.service';
 
 @Component({
   selector: 'app-music-player',
@@ -25,7 +30,7 @@ import { SpotifyService } from '../../../core/services/spotify.service';
   templateUrl: './music-player.component.html',
   styleUrl: './music-player.component.scss',
 })
-export class MusicPlayerComponent implements OnInit {
+export class MusicPlayerComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   ScreenSize = ScreenSize;
@@ -46,17 +51,19 @@ export class MusicPlayerComponent implements OnInit {
   @Output() minimize = new EventEmitter<void>();
   @ViewChild('artistInfoElement') artistInfoElement!: ElementRef;
   @ViewChild('songInfoElement') songInfoElement!: ElementRef;
+  @ViewChild('marqueeContainer') marqueeContainer!: ElementRef;
 
   public appInstances: AppInstance[] = [];
 
   public artistInfo: string = '';
   public songInfo: string = '';
-  public durationInfo: string = '';
+  public durationInfo: string = '0:00';
+  public elapsedTime: string = '0:00';
 
-  public progressValue: number = 0;
-  public playlistTracks: any[] = [];
+  public playlistTracks: Track[] = [];
   public currentTrack: any = null;
   public currentTrackIndex: number = 0;
+  public progressValue: number = 0;
 
   private playbackInterval: any;
 
@@ -64,20 +71,25 @@ export class MusicPlayerComponent implements OnInit {
   public isSongOverflowing: boolean = false;
   public isPlaying: boolean = false;
 
+  public audio = new Audio();
+
   constructor(
     private appService: AppActionsService,
     public resizeService: DragResizeService,
-    private spotifyService: SpotifyService,
+    private musicService: MusicService,
     private cdr: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
+    this.progressValue = 0;
+    // this.updateProgressBar();
+
     this.appService.openedApps$
       .pipe(takeUntil(this.destroy$))
       .subscribe((instances) => {
         this.appInstances = instances;
       });
-
     this.loadPlaylist();
+    this.simulateDuration();
   }
 
   ngAfterViewInit(): void {
@@ -88,66 +100,67 @@ export class MusicPlayerComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+
+    clearInterval(this.playbackInterval);
+    this.audio.pause();
+    this.audio.src = '';
   }
 
   public loadPlaylist(): void {
-    const query = '70s 80s 90s';
-
-    this.spotifyService
-      .searchPlaylist(query)
+    this.musicService
+      .getTracks()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        const playlist = data.playlists.items[0];
+      .subscribe((tracks: any) => {
+        this.playlistTracks = tracks;
 
-        this.spotifyService
-          .getPlaylistTracks(playlist.id)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((tracks) => {
-            this.playlistTracks = tracks.items
-              .filter((item: any) => item.track)
-              .map((item: any) => {
-                const track = item.track;
-
-                return {
-                  id: track.id,
-                  uri: track.uri,
-                  href: track.href,
-                  name: track.name,
-                  artist: track.artists
-                    .map((artist: any) => artist.name)
-                    .join(', '),
-                  album: track.album.name,
-                  duration: this.formatDuration(track.duration_ms),
-                };
-              });
-            console.log('Processed Playlist Tracks: ', this.playlistTracks);
-          });
+        if (this.playlistTracks.length > 0) {
+          this.updateMusicPlayer();
+        }
       });
   }
 
   // Methods for music player
   public updateMusicPlayer(): void {
+    if (this.playlistTracks.length === 0) {
+      return;
+    }
+
     const track = this.playlistTracks[this.currentTrackIndex];
     this.artistInfo = track.artist;
-    this.songInfo = track.name;
+    this.songInfo = track.title;
     this.durationInfo = track.duration;
+
+    this.audio.src = track.url;
+    this.audio.load();
     this.progressValue = 0;
+    this.elapsedTime = '0:00';
+
+    if (this.isPlaying) {
+      this.audio.play();
+    }
   }
 
   public togglePlayTrack(): void {
-    this.isPlaying = true;
-    this.simulatePlayback();
+    if (!this.isPlaying) {
+      this.audio.play();
+      this.isPlaying = true;
+      this.trackProgress();
+    }
   }
 
   public togglePauseTrack(): void {
+    this.audio.pause();
     this.isPlaying = false;
     clearInterval(this.playbackInterval);
   }
 
   public toggleStopTrack(): void {
+    this.audio.pause();
+    this.audio.currentTime = 0;
     this.isPlaying = false;
-    clearInterval(this.playbackInterval);
     this.progressValue = 0;
+    this.elapsedTime = '0:00';
+    clearInterval(this.playbackInterval);
   }
 
   public toggleNextTrack(): void {
@@ -155,6 +168,7 @@ export class MusicPlayerComponent implements OnInit {
     this.currentTrackIndex =
       (this.currentTrackIndex + 1) % this.playlistTracks.length;
     this.updateMusicPlayer();
+    this.togglePlayTrack();
   }
 
   public togglePreviousTrack(): void {
@@ -163,27 +177,68 @@ export class MusicPlayerComponent implements OnInit {
       (this.currentTrackIndex - 1 + this.playlistTracks.length) %
       this.playlistTracks.length;
     this.updateMusicPlayer();
+    this.togglePlayTrack();
   }
 
-  public simulatePlayback(): void {
-    const trackDuration = this.playlistTracks[this.currentTrackIndex].duration;
-    const [minutes, seconds] = trackDuration.split(':').map(Number);
-    const totalSeconds = minutes * 60 + seconds;
-
+  private trackProgress(): void {
     this.playbackInterval = setInterval(() => {
-      if (this.progressValue < 100) {
-        this.progressValue += (100 / totalSeconds) * 1;
-      } else {
+      if (!this.audio.paused) {
+        this.progressValue =
+          (this.audio.currentTime / this.audio.duration) * 100;
+      }
+      if (this.audio.ended) {
         this.toggleNextTrack();
       }
     }, 1000);
   }
 
-  public formatDuration(duration: number): string {
-    const minutes = Math.floor(duration / 60000);
-    const seconds = Math.floor((duration % 60000) / 1000);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  public simulateDuration(): void {
+    this.audio.addEventListener('loadedmetadata', () => {
+      this.durationInfo = this.formatDuration(this.audio.duration);
+    });
+
+    this.audio.addEventListener('timeupdate', () => {
+      this.elapsedTime = this.formatDuration(this.audio.currentTime);
+      this.progressValue = (this.audio.currentTime / this.audio.duration) * 100;
+    });
+
+    this.audio.addEventListener('ended', () => {
+      this.toggleNextTrack();
+    });
   }
+
+  public formatDuration(seconds: number): string {
+    if (isNaN(seconds) || seconds < 0) return '0:00';
+
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+
+  // private updateProgressBar(): void {
+  //   console.log('updateProgressBar() called');
+  //   const progressBar = document.querySelector(
+  //     '.progress-bar'
+  //   ) as HTMLInputElement;
+  //   if (progressBar) {
+  //     console.log('progressBar:', progressBar);
+  //     const percentage = `${this.progressValue}%`;
+  //     console.log('percentage:', percentage);
+  //     progressBar.style.background = `linear-gradient(to right, var(--color-dark-gray, #4a4a4a) ${percentage}, var(--color-very-light-gray, #ddd) ${percentage})`;
+  //     console.log(
+  //       'progressBar.style.background:',
+  //       progressBar.style.background
+  //     );
+  //   } else {
+  //     console.log('progressBar not found');
+  //   }
+  // }
+
+  // public onProgressChange(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   this.progressValue = Number(input.value);
+  //   this.updateProgressBar();
+  // }
 
   // Music player controls
   public toggleMinimizeMusic() {
@@ -195,6 +250,11 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   public checkTextOverflow(): void {
+    // console.log(
+    //   'songInfoElement:',
+    //   this.songInfoElement.nativeElement.scrollWidth,
+    //   this.songInfoElement.nativeElement.clientWidth
+    // );
     if (
       this.artistInfoElement.nativeElement.scrollWidth >
       this.artistInfoElement.nativeElement.clientWidth
@@ -208,12 +268,5 @@ export class MusicPlayerComponent implements OnInit {
     ) {
       this.isSongOverflowing = true;
     }
-  }
-
-  public onProgressChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    this.progressValue = Number(input.value);
-    const percentage = `${this.progressValue}%`;
-    input.style.background = `linear-gradient(to right, var(--color-dark-gray, #4a4a4a) ${percentage}, var(--color-very-light-gray, #ddd) ${percentage})`;
   }
 }

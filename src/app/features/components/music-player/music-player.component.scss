@@ -132,58 +132,61 @@
   font-size: 20px;
 }
 
-.player-progress {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// .player-progress {
+//   width: 100%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
 
-.progress-bar {
-  width: 100%;
-  appearance: none;
-  height: 5px;
-  background: linear-gradient(
-    to right,
-    var(--color-dark-gray, #4a4a4a) 0%,
-    var(--color-dark-gray, #4a4a4a) 50%,
-    var(--color-very-light-gray, #ddd) 50%
-  );
+// .progress-bar {
+//   width: 100%;
+//   appearance: none;
+//   height: 5px;
+//   background: var(--color-very-light-gray, #ddd);
+//   border-radius: 0px;
+//   outline: none;
+//   cursor: pointer;
+//   transition: background-size 0s ease;
 
-  border-radius: 0px;
-  outline: none;
-  cursor: pointer;
-  transition: background 0s ease;
-}
+//   background-image: linear-gradient(
+//     to right,
+//     var(--color-dark-gray, #4a4a4a) var(--progress-value, 0%),
+//     var(--color-very-light-gray, #ddd) var(--progress-value, 0%)
+//   );
 
-.progress-bar::-webkit-slider-thumb {
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  background-color: var(--color-black, #000);
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-  transition: transform 0.2s ease;
-}
+//   background-size: 100% 100%;
+//   background-repeat: no-repeat;
+// }
 
-.progress-bar::-moz-range-thumb {
-  appearance: none;
-  width: 10px;
-  height: 10px;
-  background-color: var(--color-black, #000);
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-  transition: transform 0.2s ease;
-}
+// .progress-bar::-webkit-slider-thumb {
+//   appearance: none;
+//   width: 10px;
+//   height: 10px;
+//   background-color: var(--color-black, #000);
+//   clip-path: polygon(50% 100%, 0 0, 100% 0);
+//   cursor: pointer;
+//   border: none;
+//   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+//   transition: transform 0.2s ease;
+// }
 
-.progress-bar:active::-webkit-slider-thumb,
-.progress-bar:active::-moz-range-thumb {
-  transform: scale(1.2);
-}
+// .progress-bar::-moz-range-thumb {
+//   appearance: none;
+//   width: 10px;
+//   height: 10px;
+//   background-color: var(--color-black, #000);
+//   clip-path: polygon(50% 100%, 0 0, 100% 0);
+//   cursor: pointer;
+//   border: none;
+//   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+//   transition: transform 0.2s ease;
+// }
+
+// .progress-bar:active::-webkit-slider-thumb,
+// .progress-bar:active::-moz-range-thumb {
+//   transform: scale(1.2);
+// }
 
 .player-controls {
   display: flex;
