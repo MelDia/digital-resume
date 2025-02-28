@@ -43,10 +43,7 @@
           },
           "configurations": {
             "production": {
-              "outputPath": {
-                "base": "dist/meldia",
-                "browser": ""
-              },
+              "outputPath": "dist/meldia",
               "budgets": [
                 {
                   "type": "initial",
