@@ -13,11 +13,12 @@ export class AppActionsService {
   constructor(private breakpointService: BreakpointService) {}
 
   public openAction(name: string): void {
+    console.log(`Opening app: ${name}`);
     const currentApps = this.openedAppsSubject.getValue();
     const appInstances = currentApps.filter((app) => app.name === name);
-
+    console.log(`App instances: ${appInstances}`);
     const screenSize = this.breakpointService.currentScreenSize;
-
+    console.log(`Current screen size: ${screenSize}`);
     const defaultConfig = this.getDefaultConfig(screenSize);
 
     if (appInstances.length < 1) {
@@ -29,14 +30,19 @@ export class AppActionsService {
         isMinimized: false,
         isMaximized: false,
       };
-
+      console.log(`App instance created:`, appInstance);
       this.openedAppsSubject.next([...currentApps, appInstance]);
     }
   }
 
   public closeAction(appId: any): void {
+    console.log(`Closing app with ID: ${appId}`);
+
     const currentApps = this.openedAppsSubject.getValue();
+    console.log(`Current apps:`, currentApps);
+
     const filteredApps = currentApps.filter((app) => app.id !== appId);
+    console.log(`Filtered apps:`, filteredApps);
     this.openedAppsSubject.next(filteredApps);
   }
 
@@ -71,13 +77,16 @@ export class AppActionsService {
   }
 
   public updateState(appId: number, updates: Partial<AppInstance>): void {
+    console.log(`Updating state of app ID: ${appId} with updates:`, updates);
     const currentApps = this.openedAppsSubject.getValue();
+    console.log(`Current apps:`, currentApps);
     const updatedApps = currentApps.map((app) => {
       if (app.id === appId) {
         return { ...app, ...updates };
       }
       return app;
     });
+    console.log(`Updated apps:`, updatedApps);
     this.openedAppsSubject.next(updatedApps);
   }
 

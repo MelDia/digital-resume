@@ -1,0 +1,57 @@
+<div
+  *appShowOnScreenSize="[
+    ScreenSize.XSmall,
+    ScreenSize.Small,
+    ScreenSize.Medium,
+    ScreenSize.Large,
+    ScreenSize.XLarge
+  ]"
+  id="printer"
+  class="printer"
+  appBringToFront
+  [componentId]="'printer'"
+  data-app-id="printer"
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  [ngStyle]="style"
+>
+  <div class="printer-container">
+    <div class="printer-header" cdkDragHandle>
+      <div class="printer-controls">
+        <button class="printer-close" (click)="toggleClosePrinter()">
+          <div class="icon-close"></div>
+        </button>
+      </div>
+    </div>
+    <div class="printer-content" *ngIf="!isPrinting && !isDownloadComplete">
+      <div class="printer-text">
+        Loading the virtual printer! Click the button to download my resume in
+        PDF.
+      </div>
+
+      <div class="printer-buttons">
+        <button (click)="startDownload()">Yes</button>
+        <button (click)="toggleClosePrinter()">No</button>
+      </div>
+    </div>
+
+    <div class="printing-screen" *ngIf="isPrinting">
+      <div class="printing-text">
+        Printing<span class="dots">
+          <span class="dot">.</span>
+          <span class="dot">.</span>
+          <span class="dot">.</span>
+        </span>
+      </div>
+      <img
+        class="hourglass"
+        src="/assets/icons/hourglass-time.gif"
+        alt="Printing..."
+      />
+    </div>
+
+    <div class="success-screen vanish" *ngIf="isDownloadComplete">
+      <div class="success-text">Download Complete! Check your files.</div>
+    </div>
+  </div>
+</div>

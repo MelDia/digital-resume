@@ -22,14 +22,14 @@
           Folder
         </p>
       </div>
-      <div class="icon">
+      <div class="icon" (click)="open('printer')">
         <div class="icon-printer icon-img"></div>
         <p class="icon-label">Printer</p>
       </div>
-      <div class="icon">
+      <!-- <div class="icon">
         <div class="icon-mailbox icon-img"></div>
         <p class="icon-label">E-mail</p>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="icon trash" (click)="showTrashBubble()">
@@ -79,4 +79,9 @@
   (close)="close(app.id)"
   (minimize)="minimize(app.id)"
 ></app-music-player
+>} @case ('printer') {<app-printer
+  [appInstance]="app"
+  (close)="close(app.id)"
+  (minimize)="minimize(app.id)"
+></app-printer
 >} } } }

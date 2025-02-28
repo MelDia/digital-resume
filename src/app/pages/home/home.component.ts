@@ -15,6 +15,7 @@ import { BubbleComponent } from '../../features/components/bubble/bubble.compone
 import { CalculatorComponent } from '../../features/components/calculator/calculator.component';
 import { CmdTerminalComponent } from '../../features/components/cmd-terminal/cmd-terminal.component';
 import { MusicPlayerComponent } from '../../features/components/music-player/music-player.component';
+import { PrinterComponent } from '../../features/components/printer/printer.component';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { MusicPlayerComponent } from '../../features/components/music-player/mus
     BubbleComponent,
     CmdTerminalComponent,
     MusicPlayerComponent,
+    PrinterComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -40,6 +42,7 @@ export class HomeComponent {
   ScreenSize = ScreenSize;
 
   public appInstances: AppInstance[] = [];
+  public isModalOpen: boolean = false;
 
   constructor(private appService: AppActionsService) {}
 
@@ -58,6 +61,11 @@ export class HomeComponent {
 
   public showTrashBubble(): void {
     this.trashBubble.toggleBubble();
+  }
+
+  public toggleModal(event: Event): void {
+    event.stopPropagation();
+    this.isModalOpen = !this.isModalOpen;
   }
 
   // App controls

@@ -14,6 +14,7 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 import { BringToFrontDirective } from '../../../core/directives/bring-to-front.directive';
 import { WindowManagerService } from '../../../core/services/window-manager.service';
+import { AppInstance } from '../../../core/models/app-instance.model';
 
 @Component({
   selector: 'app-taskbar',
@@ -116,15 +117,16 @@ export class TaskbarComponent implements OnInit {
     }
   }
 
-  public toggleMinimizedApp(app: any) {
-    this.appService.restoreMinimizedAction(app.id);
-
-    const zIndex = this.windowManagerService.bringToFront(app.name);
-    const appElement = document.querySelector(
-      `[data-app-id="${app.name}"]`
-    ) as HTMLElement;
-    if (appElement) {
-      appElement.style.zIndex = zIndex.toString();
+  public toggleMinimizedApp(app: AppInstance) {
+    if (app.isMinimized) {
+      this.appService.restoreMinimizedAction(app.id);
+    } else {
+      const zIndex = this.windowManagerService.bringToFront(app.name);
+      this.updateZIndex(app.name, zIndex);
     }
+  }
+
+  private updateZIndex(appName: string, zIndex: number): void {
+    this.windowManagerService.updateZIndex(appName, zIndex);
   }
 }

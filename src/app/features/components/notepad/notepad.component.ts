@@ -14,7 +14,7 @@ import {
 import { ScreenSizeDirective } from '../../../core/directives/screen-size-directive.directive';
 import { CommonModule } from '@angular/common';
 import { ScreenSize } from '../../../core/services/breakpoint-service.service';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragEnd, DragDropModule } from '@angular/cdk/drag-drop';
 import { ResizableModule, ResizeEvent } from 'angular-resizable-element';
 import { AppActionsService } from '../../../core/services/app-actions-service.service';
 import { AppInstance } from '../../../core/models/app-instance.model';
@@ -83,6 +83,11 @@ export class NotepadComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onDragEnd(event: CdkDragEnd) {
+    const position = event.source.getFreeDragPosition();
+    console.log('Posición actual:', position);
   }
 
   public onResizeEnd(event: ResizeEvent): void {

@@ -17,7 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/meldia",
+            "outputPath": {
+              "base": "dist/meldia",
+              "browser": ""
+            },
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -26,6 +29,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/favicon.ico",
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -38,6 +43,10 @@
           },
           "configurations": {
             "production": {
+              "outputPath": {
+                "base": "dist/meldia",
+                "browser": ""
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -50,6 +59,7 @@
                   "maximumError": "4kB"
                 }
               ],
+              "optimization": true,
               "outputHashing": "all"
             },
             "development": {

@@ -1,40 +1,40 @@
 .home {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 92vh;
-    padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 92vh;
+  padding: 1rem;
 }
 
 .home-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .icons {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
 
 .icon-img {
-    // background-color: var(--color-very-light-gray); 
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  // background-color: var(--color-very-light-gray);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .icon-label {
-    margin-top: 1rem;
-    background-color: var(--color-very-light-gray); 
-    padding: 0;
-    margin: 8px;
-    text-align: center;
+  margin-top: 1rem;
+  background-color: var(--color-very-light-gray);
+  padding: 0;
+  margin: 8px;
+  text-align: center;
 }

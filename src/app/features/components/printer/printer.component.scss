@@ -1,0 +1,159 @@
+.printer {
+  background-color: var(--color-very-light-gray);
+  box-shadow: 0 4px 8px var(--color-black);
+  border: 1px solid var(--color-black);
+
+  position: fixed;
+  inset: 0px;
+
+  width: 400px;
+  height: 190px;
+
+  resize: both;
+
+  // z-index: 99999;
+}
+
+.printer-container {
+  width: 100%;
+  height: 100%;
+}
+
+.printer-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  background-color: var(--color-very-light-gray);
+  color: var(--color-black);
+  box-shadow: 0 2px 0 var(--color-black);
+
+  padding: 5px;
+  margin: auto;
+
+  cursor: move;
+}
+
+.printer-controls {
+  display: flex;
+  gap: 4px;
+
+  button {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    border: none;
+  }
+}
+
+.printer-content {
+  width: 100%;
+
+  white-space: normal;
+  overflow-wrap: break-word;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.printer-text {
+  font-size: 18px;
+  font-family: courier;
+  white-space: normal;
+}
+
+.printer-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.printer-buttons > button {
+  background-color: var(--color-very-light-gray);
+  border: 1px solid var(--color-black);
+  border-radius: 0px;
+  font-family: "chicago", sans-serif;
+  font-size: 16px;
+}
+
+@keyframes vanish {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.printer-content,
+.printing-screen,
+.success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+}
+
+.printing-text {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.dots {
+  display: inline-block;
+}
+
+.dot {
+  animation: blink 2s step-end infinite;
+  display: inline-block;
+  opacity: 0;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.hourglass {
+  width: 30px;
+  height: 30px;
+}
+
+.success-text {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.vanish {
+  animation: vanish 3s ease-in-out forwards;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

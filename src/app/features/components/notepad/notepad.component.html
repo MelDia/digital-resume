@@ -13,6 +13,7 @@
   data-app-id="notepad"
   cdkDrag
   cdkDragRootElement=".cdk-overlay-pane"
+  (cdkDragEnded)="onDragEnd($event)"
   [ngStyle]="style"
   mwlResizable
   [validateResize]="resizeService.validate"

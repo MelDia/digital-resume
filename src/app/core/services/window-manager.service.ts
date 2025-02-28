@@ -9,17 +9,26 @@ export class WindowManagerService {
 
   constructor() {}
 
-  getNextZIndex(): number {
+  public getNextZIndex(): number {
     return ++this.zIndex;
   }
 
-  bringToFront(id: string): number {
+  public bringToFront(id: string): number {
     const newZIndex = this.getNextZIndex();
     this.components.set(id, newZIndex);
     return newZIndex;
   }
 
-  getZIndex(id: string): number {
+  public getZIndex(id: string): number {
     return this.components.get(id) || 1000;
+  }
+
+  public updateZIndex(appName: string, zIndex: number): void {
+    const appElement = document.querySelector(
+      `[data-app-id="${appName}"]`
+    ) as HTMLElement;
+    if (appElement) {
+      appElement.style.zIndex = zIndex.toString();
+    }
   }
 }
