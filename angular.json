@@ -17,10 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/meldia",
-              "browser": ""
-            },
+            "outputPath":"dist/meldia",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
