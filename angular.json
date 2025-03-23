@@ -29,8 +29,9 @@
               "src/favicon.ico",
               "src/assets",
               {
-                "glob": "**/*",
-                "input": "public"
+                "glob": "_redirects",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -41,6 +42,7 @@
           "configurations": {
             "production": {
               "outputPath": "dist/meldia",
+              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
