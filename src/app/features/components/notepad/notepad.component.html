@@ -6,14 +6,15 @@
     ScreenSize.Large,
     ScreenSize.XLarge
   ]"
+  #notepad
   id="notepad"
   class="notepad"
   appBringToFront
   [componentId]="'notepad'"
   data-app-id="notepad"
   cdkDrag
-  cdkDragRootElement=".cdk-overlay-pane"
-  (cdkDragEnded)="onDragEnd($event)"
+  cdkDragRootElement=".notepad"
+  cdkDragBoundary=".desktop-container"
   [ngStyle]="style"
   mwlResizable
   [validateResize]="resizeService.validate"

@@ -1,0 +1,30 @@
+<div
+  id="stycky-note"
+  class="sticky-note"
+  [componentId]="'sticky-note'"
+  data-app-id="sticky-note"
+  appBringToFront
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  [ngStyle]="style"
+>
+  <div class="sticky-note-container">
+    <div class="sticky-note-header" cdkDragHandle>
+      <div class="sticky-note-title">Sticky Note</div>
+      <div class="sticky-note-controls">
+        <button
+          class="sticky-note-minimize"
+          (click)="toggleMinimizeStickyNote()">
+          <div class="icon-minimize"></div>
+        </button>
+        <button class="sticky-note-close" 
+        (click)="toggleCloseStickyNote()">
+          <div class="icon-close"></div>
+        </button>
+      </div>
+    </div>
+    <div class="sticky-note-content">
+        <textarea [(ngModel)]="stickyNoteText" #noteInput></textarea>   
+    </div>
+  </div>
+</div>

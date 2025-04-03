@@ -4,6 +4,7 @@ export interface AppInstance {
   position: { left: any; top: any };
   size: { width: any; height: any };
   transform?: any;
+  zIndex?: any;
   isMinimized: boolean;
   isMaximized: boolean;
 }

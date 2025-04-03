@@ -50,7 +50,8 @@ export class NotepadComponent implements OnInit {
       top: this.appInstance.position.top,
       width: this.appInstance.size.width,
       height: this.appInstance.size.height,
-      transform: this.appInstance.transform,
+      // transform: this.appInstance.transform,
+      zIndex: this.appInstance.zIndex,
     };
   }
 
@@ -66,7 +67,7 @@ export class NotepadComponent implements OnInit {
   constructor(
     private appService: AppActionsService,
     public resizeService: DragResizeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.appService.openedApps$
@@ -78,6 +79,22 @@ export class NotepadComponent implements OnInit {
         //   (app) => app.id === this.appInstance.id
         // );
       });
+
+      const element = document.getElementById('notepad');
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        const top = rect.top + window.scrollY;
+        const left = rect.left + window.scrollX;
+        const bottom = rect.bottom + window.scrollY;
+        const right = rect.right + window.scrollX;
+      
+        console.log('Posición top:', top);
+        console.log('Posición left:', left);
+        console.log('Posición bottom:', bottom);
+        console.log('Posición right:', right);
+      }
+      
+
   }
 
   ngOnDestroy() {
@@ -85,10 +102,40 @@ export class NotepadComponent implements OnInit {
     this.destroy$.complete();
   }
 
-  onDragEnd(event: CdkDragEnd) {
-    const position = event.source.getFreeDragPosition();
-    console.log('Posición actual:', position);
-  }
+  // onMouseDown(event: MouseEvent): void {
+  //   const element = event.target as HTMLElement;
+  //   const rect = element.getBoundingClientRect();
+  //   // console.log('Posición top:', rect.top);
+  //   // console.log('Posición left:', rect.left);
+  //   // console.log('Posición bottom:', rect.bottom);
+  //   // console.log('Posición right:', rect.right);
+  // }
+  
+
+  // getPosition(): void {
+  //   const element = this.notepadElement.nativeElement; // El elemento HTML
+  //   const rect = element.getBoundingClientRect();
+
+  //   console.log('Posición top:', rect.top);
+  //   console.log('Posición left:', rect.left);
+  //   console.log('Posición bottom:', rect.bottom);
+  //   console.log('Posición right:', rect.right);
+  // }
+
+  // onDragEnd(event: CdkDragEnd, appName: string) {
+  //   const position = event.source.getFreeDragPosition();
+  //   console.log('Posición actual:', position);
+
+  //   const appInstance = this.appInstances.find(app => app.name === appName);
+
+  //   // if (appInstance) {
+  //   //   this.appInstance.position = {
+  //   //     left: `${position.x}px`,
+  //   //     top: `${position.y}px`,
+  //   //   };
+  //   //   // this.appService.updateState(appInstance.id, { position: { left: `${position.x}px`, top: `${position.y}px` } });
+  //   // }
+  // }
 
   public onResizeEnd(event: ResizeEvent): void {
     this.appInstance.position = {

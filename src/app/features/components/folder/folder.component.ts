@@ -38,6 +38,7 @@ export class FolderComponent implements OnInit {
       width: this.appInstance.size.width,
       height: this.appInstance.size.height,
       transform: this.appInstance.transform,
+      zIndex: this.appInstance.zIndex,
     };
   }
 

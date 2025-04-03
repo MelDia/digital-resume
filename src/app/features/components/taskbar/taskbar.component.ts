@@ -112,6 +112,8 @@ export class TaskbarComponent implements OnInit {
         return 'icon-cmd';
       case 'music-player':
         return 'icon-music';
+      case 'sticky-note':
+        return 'icon-sticky-note';
       default:
         return 'icon-default';
     }

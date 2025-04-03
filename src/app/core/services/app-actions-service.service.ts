@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppInstance } from '../models/app-instance.model';
 import { BreakpointService, ScreenSize } from './breakpoint-service.service';
+import { WindowManagerService } from './window-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,42 +11,38 @@ export class AppActionsService {
   private openedAppsSubject = new BehaviorSubject<AppInstance[]>([]);
   public openedApps$ = this.openedAppsSubject.asObservable();
 
-  constructor(private breakpointService: BreakpointService) {}
+  constructor(private breakpointService: BreakpointService, 
+    private windowManagerService: WindowManagerService) {}
 
   public openAction(name: string): void {
-    console.log(`Opening app: ${name}`);
     const currentApps = this.openedAppsSubject.getValue();
     const appInstances = currentApps.filter((app) => app.name === name);
-    console.log(`App instances: ${appInstances}`);
     const screenSize = this.breakpointService.currentScreenSize;
-    console.log(`Current screen size: ${screenSize}`);
     const defaultConfig = this.getDefaultConfig(screenSize);
 
     if (appInstances.length < 1) {
+      const newZIndex = this.windowManagerService.getNextZIndex(); // Obtener z-index desde el servicio
+        
       const appInstance: AppInstance = {
         id: Date.now(),
         name: name,
         position: defaultConfig.position,
         size: defaultConfig.size,
+        zIndex: newZIndex,
         isMinimized: false,
         isMaximized: false,
       };
-      console.log(`App instance created:`, appInstance);
       this.openedAppsSubject.next([...currentApps, appInstance]);
     }
   }
 
-  public closeAction(appId: any): void {
-    console.log(`Closing app with ID: ${appId}`);
-
+  public closeAction(appId: number): void {
     const currentApps = this.openedAppsSubject.getValue();
-    console.log(`Current apps:`, currentApps);
-
     const filteredApps = currentApps.filter((app) => app.id !== appId);
-    console.log(`Filtered apps:`, filteredApps);
+    
     this.openedAppsSubject.next(filteredApps);
   }
-
+  
   public minimizeAction(appId: number): void {
     this.updateState(appId, { isMinimized: true });
   }
@@ -77,16 +74,14 @@ export class AppActionsService {
   }
 
   public updateState(appId: number, updates: Partial<AppInstance>): void {
-    console.log(`Updating state of app ID: ${appId} with updates:`, updates);
     const currentApps = this.openedAppsSubject.getValue();
-    console.log(`Current apps:`, currentApps);
     const updatedApps = currentApps.map((app) => {
       if (app.id === appId) {
         return { ...app, ...updates };
       }
       return app;
     });
-    console.log(`Updated apps:`, updatedApps);
+
     this.openedAppsSubject.next(updatedApps);
   }
 
@@ -98,24 +93,24 @@ export class AppActionsService {
       case ScreenSize.XSmall:
         return {
           position: { left: '10px', top: '50px' },
-          size: { width: '95%', height: '80%' },
+          size: { width: '85%', height: '70%' },
         };
       case ScreenSize.Small:
         return {
           position: { left: '20px', top: '50px' },
-          size: { width: '80%', height: '70%' },
+          size: { width: '70%', height: '60%' },
         };
       case ScreenSize.Medium:
         return {
           position: { left: '50px', top: '50px' },
-          size: { width: '70%', height: '60%' },
+          size: { width: '60%', height: '50%' },
         };
       case ScreenSize.Large:
       case ScreenSize.XLarge:
       default:
         return {
           position: { left: '100px', top: '100px' },
-          size: { width: '60%', height: '50%' },
+          size: { width: '50%', height: '40%' },
         };
     }
   }

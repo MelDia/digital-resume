@@ -16,6 +16,7 @@ import { CalculatorComponent } from '../../features/components/calculator/calcul
 import { CmdTerminalComponent } from '../../features/components/cmd-terminal/cmd-terminal.component';
 import { MusicPlayerComponent } from '../../features/components/music-player/music-player.component';
 import { PrinterComponent } from '../../features/components/printer/printer.component';
+import { StickyNotesComponent } from '../../features/components/sticky-notes/sticky-notes.component';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ import { PrinterComponent } from '../../features/components/printer/printer.comp
     CmdTerminalComponent,
     MusicPlayerComponent,
     PrinterComponent,
+    StickyNotesComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -52,6 +54,11 @@ export class HomeComponent {
       .subscribe((instances) => {
         this.appInstances = instances;
       });
+
+      setTimeout(() => {
+        this.open('sticky-note');
+      }, 7000);
+      
   }
 
   ngOnDestroy() {
